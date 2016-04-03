@@ -3,6 +3,7 @@
 import pyaudio
 import struct
 import math
+import test_speaker
 
 INITIAL_TAP_THRESHOLD = 0.010
 FORMAT = pyaudio.paInt16
@@ -82,7 +83,7 @@ class TapTester(object):
         return stream
 
     def tapDetected(self):
-        print "Tap!"
+        test_speaker.play()
 
     def listen(self):
         try:
