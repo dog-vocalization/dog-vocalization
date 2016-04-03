@@ -3,6 +3,8 @@
 import pyaudio
 import struct
 import math
+import test_speaker
+import time
 
 INITIAL_TAP_THRESHOLD = 0.010
 FORMAT = pyaudio.paInt16
@@ -82,7 +84,9 @@ class TapTester(object):
         return stream
 
     def tapDetected(self):
-        print "Tap!"
+        print "Reached tap detected"
+        test_speaker.play()
+        print "Playing!"
 
     def listen(self):
         try:
@@ -92,7 +96,7 @@ class TapTester(object):
             self.errorcount += 1
             print( "(%d) Error recording: %s"%(self.errorcount,e) )
             self.noisycount = 1
-            return
+            return False
 
         amplitude = get_rms( block )
         if amplitude > self.tap_threshold:
@@ -107,14 +111,22 @@ class TapTester(object):
 
             if 1 <= self.noisycount <= MAX_TAP_BLOCKS:
                 self.tapDetected()
+                return True
             self.noisycount = 0
             self.quietcount += 1
             if self.quietcount > UNDERSENSITIVE:
                 # turn up the sensitivity
                 self.tap_threshold *= 0.9
+        return False
 
 if __name__ == "__main__":
     tt = TapTester()
 
+    is_playing = False
     for i in range(1000):
-        tt.listen()
+        if not is_playing:
+            is_playing = tt.listen()
+        else:
+            break
+    time.sleep(10)
+    test_speaker.pause()
