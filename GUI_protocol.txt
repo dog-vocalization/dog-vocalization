@@ -1,0 +1,4 @@
+- volume
+- current dog emotion
+- current music
+- list of music
