@@ -3,6 +3,7 @@
 import pafy
 import os
 import subprocess
+import re
 
 RESULT_DIR = os.getcwd() + "/audio_files/"
 BASE_URL = "https://www.youtube.com/watch?v="
@@ -18,7 +19,7 @@ def get_audio():
         video = pafy.new(BASE_URL + video_id)
         stream = video.getbestaudio(preftype="m4a")
 
-        title = video.title.replace (" ", "_").encode('utf-8')
+        title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
         file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
@@ -26,9 +27,9 @@ def get_audio():
 
         download_playlist(mood, video.mix.plid)
 
-    print "\n--------------- Finished downloading audio files ---------------\n"
+    print "\n********** Finished downloading audio files \n"
     convert_to_wav()
-    print "\n--------------- Finished converting audio files from .m4a to .wav ---------------\n"
+    print "\n********** Finished converting audio files from .m4a to .wav \n"
 
 
 def download_playlist(mood, video_id):
@@ -40,7 +41,7 @@ def download_playlist(mood, video_id):
         video = playlist[x]['pafy']
         stream = video.getbestaudio(preftype="m4a")
 
-        title = video.title.replace (" ", "_").encode('utf-8')
+        title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
         file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
