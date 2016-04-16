@@ -4,6 +4,8 @@ import pafy
 import os
 import subprocess
 import re
+import signal
+import fnmatch
 
 RESULT_DIR = os.getcwd() + "/audio_files/"
 BASE_URL = "https://www.youtube.com/watch?v="
@@ -52,19 +54,12 @@ def convert_to_wav():
     ffmpeg_bin = "ffmpeg"
     if os.name == "nt": ffmpeg_bin += ".exe" # format for Windows machines
 
-    for file_name in os.listdir(RESULT_DIR):
-        # Bash command to convert .m4a to .wav using FFMPEG
-        command = [
-            ffmpeg_bin, # FFMPEG location
-            '-nostats', '-loglevel', '0', # tell FFMPEG to be quiet!!
-            '-i', RESULT_DIR + file_name, # -i indicates the input file
-            '-acodec', # force audio codec
-            'pcm_s16le', # PCM means "traditional wave like format" (raw bytes, basically). 16 means 16 bits per sample, "le" means "little endian"
-            RESULT_DIR + file_name[:-4] +'.wav', # output file
-            '-y', # yes to overriding existing files with the same name
-            '-' # let FFMPEG know its being used outside command line
-        ]
-        subprocess.Popen(command, stdout = subprocess.PIPE)
+    for file_name in (file for file in os.listdir(RESULT_DIR) if fnmatch.fnmatch(file, '*.m4a')):
+        command = [ ffmpeg_bin, '-loglevel', '0', '-i', RESULT_DIR + file_name, RESULT_DIR + file_name[:-4] +'.wav', '-y' ]
+        process = subprocess.Popen(command, stdout = subprocess.PIPE, preexec_fn=os.setsid)
+
+        # Kill the processes when we're done
+        os.killpg(os.getpgid(process.pid), signal.SIGTERM)
 
     # Delete the m4a files
     command = [ 'find', RESULT_DIR, '-name', '*.m4a', '-exec', 'rm', '-rf', '{}', ';' ]
