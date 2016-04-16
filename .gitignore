@@ -48,3 +48,4 @@ fabric.properties.idea/*
 *.pyc
 
 *.m4a
+*.DS_Store
