@@ -63,7 +63,7 @@ playlist_length = len(playlist)
 for x in xrange(playlist_length):
     video = playlist[x]['pafy']
     print video.videoid
-    stream = video.getbestaudio()
+    stream = video.getbestaudio(preftype="m4a")
     fname = stream.download("")
 
 print "done processing playlist"
