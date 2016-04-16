@@ -2,10 +2,10 @@
 
 import pafy
 import os
+import subprocess
 
-RESULT_FOLDER = "/happy_audio_files"
+RESULT_DIR = os.getcwd() + "/audio_files/"
 BASE_URL = "https://www.youtube.com/watch?v="
-
 VIDEO_IDS = {
     "happy": "wrvqHw4wE_Q",
     "angry": "orEC1_Un_1w"
@@ -19,12 +19,16 @@ def get_audio():
         stream = video.getbestaudio(preftype="m4a")
 
         title = video.title.replace (" ", "_").encode('utf-8')
-        file_path = "{0}/audio_files/{1}_{2}.{3}".format(os.getcwd(), mood.upper(), title, stream.extension)
+        file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
         print "Downloaded {0}".format(file)
+
         download_playlist(mood, video.mix.plid)
-    print "--------------- Finished downloading audio_ files ---------------"
+
+    print "\n--------------- Finished downloading audio files ---------------\n"
+    convert_to_wav()
+    print "\n--------------- Finished converting audio files from .m4a to .wav ---------------\n"
 
 
 def download_playlist(mood, video_id):
@@ -37,13 +41,33 @@ def download_playlist(mood, video_id):
         stream = video.getbestaudio(preftype="m4a")
 
         title = video.title.replace (" ", "_").encode('utf-8')
-        file_path = "{0}/audio_files/{1}_{2}.{3}".format(os.getcwd(), mood.upper(), title, stream.extension)
+        file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
         print "Downloaded {0}".format(file)
 
 
+def convert_to_wav():
+    ffmpeg_bin = "ffmpeg"
+    if os.name == "nt": ffmpeg_bin += ".exe" # format for Windows machines
 
-get_audio()
+    for file_name in os.listdir(RESULT_DIR):
+        # Bash command to convert .m4a to .wav using FFMPEG
+        command = [
+            ffmpeg_bin, # FFMPEG location
+            '-nostats', '-loglevel', '0', # tell FFMPEG to be quiet!!
+            '-i', RESULT_DIR + file_name, # -i indicates the input file
+            '-acodec', # force audio codec
+            'pcm_s16le', # PCM means "traditional wave like format" (raw bytes, basically). 16 means 16 bits per sample, "le" means "little endian"
+            RESULT_DIR + file_name[:-4] +'.wav', # output file
+            '-y', # yes to overriding existing files with the same name
+            '-' # let FFMPEG know its being used outside command line
+        ]
+        subprocess.Popen(command, stdout = subprocess.PIPE)
+
+    # Delete the m4a files
+    command = [ 'find', RESULT_DIR, '-name', '*.m4a', '-exec', 'rm', '-rf', '{}', ';' ]
+    subprocess.Popen(command, stdout = subprocess.PIPE)
+
 
 
