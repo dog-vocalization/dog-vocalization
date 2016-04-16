@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import microphone_util
-import time
 
 DEVICE_NAME = "USB Audio Device"
 
