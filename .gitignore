@@ -50,3 +50,4 @@ fabric.properties.idea/*
 *.m4a
 *.DS_Store
 *.wav
+*.temp
