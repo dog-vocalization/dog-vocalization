@@ -47,7 +47,5 @@ fabric.properties.idea/*
 .idea/encodings.xml
 *.pyc
 
-*.m4a
 *.DS_Store
-*.wav
-*.temp
+audio_files/
