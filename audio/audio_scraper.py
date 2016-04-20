@@ -4,8 +4,7 @@ import pafy
 import os
 import subprocess
 import re
-import signal
-import fnmatch
+import time
 
 RESULT_DIR = os.getcwd() + "/audio_files/"
 BASE_URL = "https://www.youtube.com/watch?v="
@@ -25,19 +24,17 @@ def get_audio():
         file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
-        print "Downloaded {0}".format(file)
+        convert_to_wav(file)
+        print "Downloaded {0}".format(file[:-4] + '.wav')
 
         download_playlist(mood, video.mix.plid)
 
     print "\n********** Finished downloading audio files \n"
-    convert_to_wav()
-    print "\n********** Finished converting audio files from .m4a to .wav \n"
 
 
 def download_playlist(mood, video_id):
     playlist_and_meta = pafy.get_playlist(video_id)
     playlist = playlist_and_meta['items']
-
 
     for x in xrange(len(playlist)):
         video = playlist[x]['pafy']
@@ -47,23 +44,34 @@ def download_playlist(mood, video_id):
         file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
-        print "Downloaded {0}".format(file)
+        convert_to_wav(file)
+        print "Downloaded {0}".format(file[:-4] + '.wav')
 
 
-def convert_to_wav():
+def convert_to_wav(file_path):
     ffmpeg_bin = "ffmpeg"
     if os.name == "nt": ffmpeg_bin += ".exe" # format for Windows machines
 
-    for file_name in (file for file in os.listdir(RESULT_DIR) if fnmatch.fnmatch(file, '*.m4a')):
-        command = [ ffmpeg_bin, '-loglevel', '0', '-i', RESULT_DIR + file_name, RESULT_DIR + file_name[:-4] +'.wav', '-y' ]
-        process = subprocess.Popen(command, stdout = subprocess.PIPE, preexec_fn=os.setsid)
+    new_file_path = file_path[:-4] + '.wav'
 
-        # Kill the processes when we're done
-        os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+    command = [ ffmpeg_bin, '-i', file_path, new_file_path, '-y' ]
+    conversionProcess = subprocess.Popen(command, stdout = subprocess.PIPE)
+
+    # Wait until we're done converting the file
+    while os.path.isfile(new_file_path) is False:
+        time.sleep(1)
+
+    conversionProcess.stdout.close()
 
     # Delete the m4a files
     command = [ 'find', RESULT_DIR, '-name', '*.m4a', '-exec', 'rm', '-rf', '{}', ';' ]
-    subprocess.Popen(command, stdout = subprocess.PIPE)
+    deletionProcess = subprocess.Popen(command, stdout = subprocess.PIPE)
+
+    # Wait until we're done deleting the old file
+    while os.path.isfile(file_path) is True:
+        time.sleep(1)
+
+    deletionProcess.stdout.close()
 
 
 
