@@ -4,9 +4,11 @@
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/misc.xml
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/dog-vocalization.iml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
@@ -44,3 +46,4 @@ crashlytics-build.properties
 fabric.properties.idea/*
 .idea/encodings.xml
 *.pyc
+

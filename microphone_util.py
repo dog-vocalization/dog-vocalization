@@ -81,7 +81,6 @@ class Listener(object):
             block = self.stream.read(INPUT_FRAMES_PER_BLOCK)
 
         except IOError, e:
-            # dammit.
             self.errorcount += 1
             print( "(%d) Error recording: %s"%(self.errorcount,e) )
 
