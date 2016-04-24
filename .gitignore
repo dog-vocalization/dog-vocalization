@@ -10,6 +10,10 @@
 .idea/jsLibraryMappings.xml
 .idea/dog-vocalization.iml
 
+# LiClipse/PyDev:
+.project
+.pydevproject
+
 # Sensitive or high-churn files:
 .idea/dataSources.ids
 .idea/dataSources.xml
