@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from numpy import isnan
+from numpy import nan_to_num
 from audio_file import File
 
 
@@ -25,9 +25,7 @@ class AudioMood():
         for audio_file in self.files:
             dataset = audio_file.generate_dataset()
 
-            where_are_NaNs = isnan(dataset)
-            dataset[where_are_NaNs] = 0
-
+            dataset = nan_to_num(dataset)
             datasets.append(dataset)
 
             output = "Finished generating dataset for {0}: {1}\n".format(audio_file.file_name, dataset)
