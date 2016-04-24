@@ -34,7 +34,8 @@ def run_analysis(audio_files):
 
     for mood, data in test_cases.iteritems():
         prediction = clf.predict_proba(data)
-        print "Mood: {0}, prediction: {1}".format(mood, prediction)
+        prediction2 = clf.predict(data)
+        print "Mood: {0}, prediction 1: {1}, prediction 2: {2}".format(mood, prediction, prediction2)
 
 
 
