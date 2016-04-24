@@ -31,6 +31,6 @@ class AudioMood():
             output = "Finished generating dataset for {0}: {1}\n".format(audio_file.file_name, dataset)
             print output
 
-        return dataset
+        return datasets
 
 
