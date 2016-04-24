@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
-import os
-import time
-
+from numpy import isnan
 from audio_file import File
 
 
@@ -21,24 +19,20 @@ class AudioMood():
 
         return files
 
-    def run_analysis(self):
+    def generate_dataset(self):
 
-        results_file = open("{0}/{1}_{2}_results.txt".format(os.getcwd(), self.mood, time.time()), 'w')
-
+        datasets = []
         for audio_file in self.files:
-            audio_file.fft()
-            return
+            dataset = audio_file.generate_dataset()
 
-            # data = audio_file.data()
+            where_are_NaNs = isnan(dataset)
+            dataset[where_are_NaNs] = 0
+
+            datasets.append(dataset)
+
+            output = "Finished generating dataset for {0}: {1}\n".format(audio_file.file_name, dataset)
+            print output
+
+        return dataset
 
 
-        #     result_text = "********************" + audio_file.file_name + "/n"
-        #     for name, value in data:
-        #         result_text += name + ": " + value + "\n"
-        #
-        #     result_text += "\n\n"
-        #     results_file.write(result_text)
-        #     results_file.close()
-        #     return
-        #
-        # results_file.close()

@@ -20,7 +20,7 @@ class AudioFrame():
         return self.fft.flatness()
 
     def rms(self):
-        return self.audio_file.frame.rms()
+        return self.frame.rms()
 
     def mean(self):
         return self.fft.mean()

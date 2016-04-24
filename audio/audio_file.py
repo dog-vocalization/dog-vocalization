@@ -22,47 +22,58 @@ class File():
         return self.file_name
 
     def fft(self):
-
         ffts = []
         for frame in self.audio_frames:
-            print frame.mean()
-            return
-            # ffts.append(frame.fft())
+            ffts.append(frame.mean())
 
-        # pyplot.plot(ffts)
-        # pyplot.show()
+        return numpy.mean(ffts)
 
 
     def spectral_rolloff(self):
         spectral_rolloffs = []
         for frame in self.audio_frames:
             spectral_rolloffs.append(frame.spectral_rolloff())
-        #
-        pyplot.plot(spectral_rolloffs)
-        pyplot.show()
+
+        return numpy.mean(spectral_rolloffs)
 
     def spectral_flatness(self):
-        # return self.fft.flatness() TODO
+        spectral_flatnesses = []
+        for frame in self.audio_frames:
+            spectral_flatnesses.append(frame.spectral_flatness())
+
+        return numpy.mean(spectral_flatnesses)
 
     def rms(self):
-        return self.audio_file.frame.rms()
+        rmses = []
+        for frame in self.audio_frames:
+            rmses.append(frame.rms())
+
+        return numpy.mean(rmses)
 
     def mean(self):
-        return self.fft.mean()
+        means = []
+        for frame in self.audio_frames:
+            means.append(frame.mean())
+
+        return numpy.mean(means)
 
     def variance(self):
-        return self.fft.variance()
+        variances = []
+        for frame in self.audio_frames:
+            variances.append(frame.variance())
 
-    # def data(self):
-        # data = {
-        #     'fft': self.fft(),
-        #     'spectral_rolloff': self.spectral_rolloff(),
-        #     'spectral_flatness': self.spectral_flatness(),
-        #     'rms': self.rms(),
-        #     'mean': self.mean(),
-        #     'variance': self.variance()
-        # }
-        #
-        # return data
+        return numpy.mean(variances)
+
+    def generate_dataset(self):
+        dataset = [
+            self.fft(),
+            self.spectral_rolloff(),
+            self.spectral_flatness(),
+            self.rms(),
+            self.mean(),
+            self.variance()
+        ]
+
+        return dataset
 
 
