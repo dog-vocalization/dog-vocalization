@@ -11,8 +11,8 @@ import pyaudio
 from numpy import *
 from numpy.lib import stride_tricks
 
-from audio import pymir
-from audio.pymir import Transforms
+import Transforms
+import AudioFile
 
 
 class Frame(numpy.ndarray):
@@ -126,7 +126,7 @@ class Frame(numpy.ndarray):
                     frame = numpy.append(frame, [0] * diff)
                     
                     if frameType == "AudioFile":
-                        frame = frame.view(pymir.AudioFile)
+                        frame = frame.view(AudioFile.AudioFile)
                     else:
                         frame = frame.view(Frame)
 

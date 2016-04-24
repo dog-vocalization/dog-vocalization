@@ -50,3 +50,4 @@ fabric.properties.idea/*
 *.DS_Store
 audio_files/
 image_files/
+*_results.txt

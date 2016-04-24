@@ -11,7 +11,7 @@ import pyaudio
 import scipy.io.wavfile
 from numpy import *
 
-from audio.pymir import Frame
+import Frame
 
 
 class AudioFile(Frame.Frame):

@@ -11,7 +11,7 @@ import scipy.stats
 import scipy.stats.mstats
 from numpy import *
 
-from audio.pymir import MFCC, Pitch, Transforms
+import MFCC, Pitch, Transforms
 
 
 class Spectrum(numpy.ndarray):

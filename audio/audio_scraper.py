@@ -5,8 +5,9 @@ import os
 import subprocess
 import re
 import time
+import glob
 
-RESULT_DIR = os.getcwd() + "/audio_files/"
+AUDIO_DIR = os.getcwd() + "/audio_files/"
 PLAYLIST_SEEDS = {
     "happy": "wrvqHw4wE_Q",
     "angry": "orEC1_Un_1w"
@@ -14,21 +15,39 @@ PLAYLIST_SEEDS = {
 
 
 def get_audio():
+
+    audio_files = {}
     for mood, video_id in PLAYLIST_SEEDS.iteritems():
+        audio_files[mood] = glob.glob(AUDIO_DIR + mood.upper() + '*.wav')
+        if len(audio_files[mood]) is 0:
+            audio_files = download_audio()
+            return audio_files
+
+    return audio_files
+
+
+def download_audio():
+
+    audio_files = {}
+
+    for mood, video_id in PLAYLIST_SEEDS.iteritems():
+        audio_files[mood] = []
 
         video = pafy.new(video_id)
         stream = video.getbestaudio(preftype="m4a")
 
         title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
-        file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
+        file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
-        convert_to_wav(file)
-        print "Downloaded {0}".format(file[:-4] + '.wav')
+        file_name = convert_to_wav(file)
+        audio_files[mood].append(file_name)
 
-        download_playlist(mood, video.mix.plid)
+        file_names = download_playlist(mood, video.mix.plid)
+        audio_files[mood].extend(file_names)
 
     print "\n********** Finished downloading audio files \n"
+    return audio_files
 
 
 def download_playlist(mood, video_id):
@@ -45,11 +64,12 @@ def download_playlist(mood, video_id):
         stream = video.getbestaudio(preftype="m4a")
 
         title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
-        file_path = RESULT_DIR + mood.upper() + "_" + title + "." + stream.extension
+        file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
 
         file = stream.download(filepath = file_path)
-        convert_to_wav(file)
+        file_name = convert_to_wav(file)
         print "Downloaded {0}".format(file[:-4] + '.wav')
+        return file_name
 
 
 def convert_to_wav(file_path):
@@ -68,7 +88,7 @@ def convert_to_wav(file_path):
     conversionProcess.stdout.close()
 
     # Delete the m4a files
-    command = [ 'find', RESULT_DIR, '-name', '*.m4a', '-exec', 'rm', '-rf', '{}', ';' ]
+    command = [ 'find', AUDIO_DIR, '-name', '*.m4a', '-exec', 'rm', '-rf', '{}', ';' ]
     deletionProcess = subprocess.Popen(command, stdout = subprocess.PIPE)
 
     # Wait until we're done deleting the old file
@@ -76,6 +96,7 @@ def convert_to_wav(file_path):
         time.sleep(1)
 
     deletionProcess.stdout.close()
+    return new_file_path
 
 
 

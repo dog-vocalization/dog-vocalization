@@ -9,7 +9,7 @@ import numpy.fft
 import scipy
 from numpy import *
 
-from audio import pymir
+import Spectrum, Frame
 
 
 # Fourier Transforms
@@ -19,7 +19,7 @@ def fft(frame):
 	Returns an instance of Spectrum
 	"""
 	fftdata = numpy.fft.rfft(frame) # rfft only returns the real half of the FFT values, which is all we need
-	spectrum = fftdata.view(pymir.Spectrum)
+	spectrum = fftdata.view(Spectrum.Spectrum)
 	spectrum.sampleRate = frame.sampleRate
 	return spectrum
 
@@ -28,7 +28,7 @@ def ifft(spectrum):
 	Compute the Inverse FFT
 	"""
 	fftdata = numpy.fft.irfft(spectrum)
-	frame = fftdata.view(pymir.Frame)
+	frame = fftdata.view(Frame)
 	frame.sampleRate = spectrum.sampleRate
 	return frame
 
@@ -38,7 +38,7 @@ def dct(frame):
 	Compute the Discrete Cosine Transform (DCT)
 	"""
 	dctResult = scipy.fftpack.dct(frame, type = 2, norm = 'ortho')
-	dctSpectrum = dctResult.view(pymir.Spectrum)
+	dctSpectrum = dctResult.view(Spectrum.Spectrum)
 	dctSpectrum.sampleRate = frame.sampleRate
 	return dctSpectrum
 
@@ -47,7 +47,7 @@ def idct(spectrum):
 	Compute the Inverse Discrete Cosine Transform (IDCT)
  	"""
 	idctResult = scipy.fftpack.idct(spectrum, type = 2, norm = 'ortho')
-	idctFrame = idctResult.view(pymir.Frame)
+	idctFrame = idctResult.view(Frame)
 	idctFrame.sampleRate = spectrum.sampleRate
 	return idctFrame
 
