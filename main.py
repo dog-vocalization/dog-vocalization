@@ -6,7 +6,7 @@ import audio.audio_analysis as audio_analysis
 
 if __name__ == "__main__":
     audio_files = audio_scraper.get_audio()
-    audio_analysis.run_analysis(audio_files)
+    audio_analysis.run_analysis(file_name="/training_data.csv")
 
 
 
