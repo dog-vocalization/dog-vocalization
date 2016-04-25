@@ -24,9 +24,22 @@ class File():
     def fft(self):
         ffts = []
         for frame in self.audio_frames:
-            ffts.append(frame.mean())
+            ffts.append((frame.fft_data()))
 
-        return numpy.mean(ffts)
+        plot = pyplot.plot(ffts)
+        ax = pyplot.gca() # get axis handle
+
+        line = ax.lines[0] # get the first line, there might be more
+
+        xData = line.get_xdata()
+        yData = line.get_ydata()
+
+        slope, intercept = numpy.polyfit(xData, yData, 1)
+        print "SLOPE: {0}".format(slope)
+
+        pyplot.show()
+        pyplot.close()
+        return slope#numpy.min(ffts)
 
 
     def spectral_rolloff(self):
@@ -64,14 +77,22 @@ class File():
 
         return numpy.mean(variances)
 
+    def spread(self):
+        spreads = []
+        for frame in self.audio_frames:
+            spreads.append(frame.spread())
+
+        return numpy.mean(spreads)
+
     def generate_dataset(self):
+        # self.fft()
         dataset = [
-            self.fft(),
-            self.spectral_rolloff(),
-            self.spectral_flatness(),
-            self.rms(),
-            self.mean(),
-            self.variance()
+            # self.fft()#,
+            # self.spectral_rolloff()#,
+            # self.spectral_flatness(),
+            # self.rms(),
+            # self.mean(),
+            self.spread()
         ]
 
         return dataset

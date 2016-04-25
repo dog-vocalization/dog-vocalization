@@ -11,7 +11,7 @@ class AudioFrame():
         self.fft = Transforms.fft(self.frame)
 
     def fft_data(self):
-        return self.fft
+        return self.fft.mean()
 
     def spectral_rolloff(self):
         return self.fft.rolloff()
@@ -28,6 +28,9 @@ class AudioFrame():
     def variance(self):
         return self.fft.variance()
 
+    def spread(self):
+        return self.fft.spread()
+
     def data(self):
         data = {
             'fft': self.fft(),
@@ -35,7 +38,8 @@ class AudioFrame():
             'spectral_flatness': self.spectral_flatness(),
             'rms': self.rms(),
             'mean': self.mean(),
-            'variance': self.variance()
+            'variance': self.variance(),
+            'spread': self.spread()
         }
 
         return data

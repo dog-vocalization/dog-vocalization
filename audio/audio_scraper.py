@@ -9,15 +9,15 @@ import glob
 
 AUDIO_DIR = os.getcwd() + "/audio_files/"
 PLAYLIST_SEEDS = {
-    "happy": "wrvqHw4wE_Q",
-    "angry": "orEC1_Un_1w"
+    "happy": [ "wrvqHw4wE_Q", "yefLspYrYOg", "ilMzs1UHEmw", "OlwFV_jmDHI" ],#CpbYBZKdi3s
+    "angry": [ "orEC1_Un_1w","pq6LFrVU-Nc", "QPK8Nxofb3c", "yZVChD-I5_s" ]
 }
 
 
 def get_audio():
 
     audio_files = {}
-    for mood, video_id in PLAYLIST_SEEDS.iteritems():
+    for mood, video_ids in PLAYLIST_SEEDS.iteritems():
         audio_files[mood] = glob.glob(AUDIO_DIR + mood.upper() + '*.wav')
         if len(audio_files[mood]) is 0:
             audio_files = download_audio()
@@ -30,46 +30,58 @@ def download_audio():
 
     audio_files = {}
 
-    for mood, video_id in PLAYLIST_SEEDS.iteritems():
+    for mood, video_ids in PLAYLIST_SEEDS.iteritems():
         audio_files[mood] = []
 
-        video = pafy.new(video_id)
-        stream = video.getbestaudio(preftype="m4a")
+        for video_id in video_ids:
+            video = pafy.new(video_id)
+            stream = video.getbestaudio(preftype="m4a")
 
-        title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
-        file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
+            title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
+            file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
 
-        file = stream.download(filepath = file_path)
-        file_name = convert_to_wav(file)
-        audio_files[mood].append(file_name)
+            file = stream.download(filepath = file_path)
+            file_name = convert_to_wav(file)
+            audio_files[mood].append(file_name)
 
-        file_names = download_playlist(mood, video.mix.plid)
-        audio_files[mood].extend(file_names)
+            file_names = download_playlist(mood, video.mix.plid)
+            audio_files[mood].extend(file_names)
 
     print "\n********** Finished downloading audio files \n"
     return audio_files
 
 
 def download_playlist(mood, video_id):
-
     #create a playlist meta object from the playlist id
     playlist_and_meta = pafy.get_playlist(video_id)
 
     #extract list of video urls from playlist meta object
     playlist = playlist_and_meta['items']
 
+    file_names = []
+
     #iterate over list of video urls and download their audio
     for x in xrange(len(playlist)):
         video = playlist[x]['pafy']
-        stream = video.getbestaudio(preftype="m4a")
+        try:
+            stream = video.getbestaudio(preftype="m4a")
+        except KeyError as e:
+            print "Encountered error: {0}".format(e.message)
+            continue
 
         title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
         file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
 
-        file = stream.download(filepath = file_path)
-        file_name = convert_to_wav(file)
+        try:
+            file = stream.download(filepath = file_path)
+        except IOError as e:
+            print "Encountered error: {0}".format(e.message)
+            continue
+
+        file_names.append(convert_to_wav(file))
         print "Downloaded {0}".format(file[:-4] + '.wav')
-        return file_name
+
+    return file_names
 
 
 def convert_to_wav(file_path):
