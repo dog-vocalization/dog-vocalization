@@ -10,20 +10,27 @@ import csv
 
 from sklearn.externals.six import StringIO
 
+
+"""
+Uses a decision tree classifier to build a feature-matching model, 
+then trains the fit of the training data with our class labels.
+
+Contains test cases which generate probability-based classification predictions 
+"""
 def run_analysis(audio_files = None, file_name = ""):
 
-    if audio_files is None and file_name is "":
+    if not audio_files and not file_name:
         print "run_analysis requires at least one parameter. None given."
         return
 
-    if audio_files is not None:
+    if audio_files:
         training_data, class_labels = import_training_data(audio_files)
     else:
         training_data, class_labels = read_training_data(file_name)
 
     training_data, class_labels, test_cases = generate_test_cases(training_data, class_labels)
 
-    if audio_files is not None:
+    if audio_files:
         save_training_data(training_data, class_labels)
 
     clf = tree.DecisionTreeClassifier()
@@ -41,6 +48,12 @@ def run_analysis(audio_files = None, file_name = ""):
     # graph = pydot.graph_from_dot_data(dot_data.getvalue())
     # graph.write_pdf(os.getcwd() + "/tree.pdf")
 
+
+"""
+Build a set of test cases to be evaluated by the run analysis step.
+
+Returns training data, class labels, and test cases.
+"""
 def generate_test_cases(training_data, class_labels):
     test_cases = {}
 
@@ -57,6 +70,13 @@ def generate_test_cases(training_data, class_labels):
     print "Test cases: {0}".format(test_cases)
     return training_data, class_labels, test_cases
 
+
+"""
+Extract training data from the audio_files passed to this function.
+Categorizes extracted data by a corresponding mood.
+
+Returns training data and class_labels
+"""
 def import_training_data(audio_files):
     training_data = []
     class_labels = []
@@ -70,6 +90,12 @@ def import_training_data(audio_files):
 
     return training_data, class_labels
 
+
+"""
+Reads training data from csv file by class label
+
+Returns training data and class_labels
+"""
 def read_training_data(file_name):
     training_data = []
 
@@ -84,6 +110,9 @@ def read_training_data(file_name):
     return training_data, class_labels
 
 
+"""
+Writes training data to a csv as class labels and audio track data.
+"""
 def save_training_data(training_data, class_labels):
     with open(os.getcwd() + "/training_data.csv", 'w') as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
