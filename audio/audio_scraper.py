@@ -9,8 +9,8 @@ import glob
 
 AUDIO_DIR = os.getcwd() + "/audio_files/"
 PLAYLIST_SEEDS = {
-    "happy": [ "wrvqHw4wE_Q", "yefLspYrYOg", "ilMzs1UHEmw", "OlwFV_jmDHI" ],#CpbYBZKdi3s
-    "angry": [ "orEC1_Un_1w","pq6LFrVU-Nc", "QPK8Nxofb3c", "yZVChD-I5_s" ]
+    "bark": [ 'Fon1IZ0fRSI', 'LH9v-FWY4oU', 'yPkr1XQFNJA', 'AqqJvyRlFwQ' ],
+    "growl": [ 'aOXoZe1TmMs', 'mxNRm0Dboww', 'O6oeg0qaI-Q']
 }
 
 
@@ -44,8 +44,8 @@ def download_audio():
             file_name = convert_to_wav(file)
             audio_files[mood].append(file_name)
 
-            file_names = download_playlist(mood, video.mix.plid)
-            audio_files[mood].extend(file_names)
+            # file_names = download_playlist(mood, video.mix.plid)
+            # audio_files[mood].extend(file_names)
 
     print "\n********** Finished downloading audio files \n"
     return audio_files

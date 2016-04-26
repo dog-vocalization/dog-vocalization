@@ -2,8 +2,9 @@
 
 import numpy
 import matplotlib.pyplot as pyplot
+import os
 
-from pymir.AudioFile import AudioFile
+from audio.pymir.AudioFile import AudioFile
 from audio_frame import AudioFrame
 
 
@@ -24,22 +25,26 @@ class File():
     def fft(self):
         ffts = []
         for frame in self.audio_frames:
-            ffts.append((frame.fft_data()))
+            ffts.append(abs(frame.fft_data()))
 
         plot = pyplot.plot(ffts)
-        ax = pyplot.gca() # get axis handle
+        # ax = pyplot.gca() # get axis handle
+        #
+        # line = ax.lines[0] # get the first line, there might be more
+        #
+        # xData = line.get_xdata()
+        # yData = line.get_ydata()
+        #
+        # slope, intercept = numpy.polyfit(xData, yData, 1)
+        # print "SLOPE: {0}".format(slope)
 
-        line = ax.lines[0] # get the first line, there might be more
+        # pyplot.show()
+        modified_file_name = self.file_name.split('/')
+        modified_file_name = modified_file_name[len(modified_file_name) - 1]
+        pyplot.savefig(os.getcwd() + "/image_files/file_graphs/{0}_graph.png".format(modified_file_name), bbox_inches='tight')
 
-        xData = line.get_xdata()
-        yData = line.get_ydata()
-
-        slope, intercept = numpy.polyfit(xData, yData, 1)
-        print "SLOPE: {0}".format(slope)
-
-        pyplot.show()
         pyplot.close()
-        return slope#numpy.min(ffts)
+        # return slope#numpy.min(ffts)
 
 
     def spectral_rolloff(self):
@@ -77,22 +82,15 @@ class File():
 
         return numpy.mean(variances)
 
-    def spread(self):
-        spreads = []
-        for frame in self.audio_frames:
-            spreads.append(frame.spread())
-
-        return numpy.mean(spreads)
-
     def generate_dataset(self):
-        # self.fft()
+        self.fft()
         dataset = [
             # self.fft()#,
             # self.spectral_rolloff()#,
             # self.spectral_flatness(),
             # self.rms(),
-            # self.mean(),
-            self.spread()
+            self.mean(),
+            # self.rms()
         ]
 
         return dataset

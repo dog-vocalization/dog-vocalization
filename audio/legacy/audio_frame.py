@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from pymir import Transforms
+from audio.pymir import Transforms
 
 
 class AudioFrame():
@@ -11,7 +11,7 @@ class AudioFrame():
         self.fft = Transforms.fft(self.frame)
 
     def fft_data(self):
-        return self.fft.mean()
+        return self.fft.mean() ** 2
 
     def spectral_rolloff(self):
         return self.fft.rolloff()
