@@ -3,6 +3,11 @@
 from pymir import Transforms
 
 
+"""
+AudioFrame defines the attributes of each subdivision of an audio file, called a
+"frame".  These attributes keep track of potential audio "feature selections".
+(a.k.a. tracks the future useful transformations on the frame's FFT).
+"""
 class AudioFrame():
 
     def __init__(self, frame):

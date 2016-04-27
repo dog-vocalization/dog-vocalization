@@ -3,12 +3,16 @@
 from numpy import nan_to_num
 from audio_file import File
 
-
+"""
+Class which contains the audio files associated with a certain mood and the 
+corresponding dataset for these files
+"""
 class AudioMood():
 
     def __init__(self, mood, file_names):
         self.mood = mood
         self.files = self.get_audio_files(file_names)
+        self.dataset = self.generate_dataset()
 
     def get_audio_files(self, file_names):
 
