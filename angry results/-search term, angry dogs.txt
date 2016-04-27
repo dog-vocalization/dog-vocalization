@@ -1,2 +1,0 @@
-seed video: https://www.youtube.com/watch?v=orEC1_Un_1w
-Name: "Angry dog is angry !"
