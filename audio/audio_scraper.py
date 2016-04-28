@@ -10,7 +10,7 @@ import glob
 AUDIO_DIR = os.getcwd() + "/audio_files/"
 PLAYLIST_SEEDS = {
     "bark": [ 'Fon1IZ0fRSI', 'LH9v-FWY4oU', 'yPkr1XQFNJA', 'AqqJvyRlFwQ' ],
-    "growl": [ 'aOXoZe1TmMs', 'mxNRm0Dboww', 'O6oeg0qaI-Q']
+    "growl": [ 'aOXoZe1TmMs', 'mxNRm0Dboww', 'O6oeg0qaI-Q', '05W9SXQieEA', 'H_OHwDtOjUk']
 }
 
 
@@ -34,14 +34,7 @@ def download_audio():
         audio_files[mood] = []
 
         for video_id in video_ids:
-            video = pafy.new(video_id)
-            stream = video.getbestaudio(preftype="m4a")
-
-            title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
-            file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
-
-            file = stream.download(filepath = file_path)
-            file_name = convert_to_wav(file)
+            file_name = download_song(video_id, mood)
             audio_files[mood].append(file_name)
 
             # file_names = download_playlist(mood, video.mix.plid)
@@ -49,6 +42,18 @@ def download_audio():
 
     print "\n********** Finished downloading audio files \n"
     return audio_files
+
+
+def download_song(video_id, mood="unknown"):
+    video = pafy.new(video_id)
+    stream = video.getbestaudio(preftype="m4a")
+
+    title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
+    file_path = AUDIO_DIR + mood.upper() + "_" + title + "." + stream.extension
+
+    file = stream.download(filepath = file_path)
+    file_name = convert_to_wav(file)
+    return file_name
 
 
 def download_playlist(mood, video_id):

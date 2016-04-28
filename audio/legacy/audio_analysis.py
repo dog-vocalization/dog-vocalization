@@ -53,13 +53,13 @@ def generate_test_cases(training_data, class_labels):
 
     test_case_indexes = {}
 
-    # for count, category in enumerate(class_labels):
-    #     if category not in test_case_indexes.keys():
-    #         test_cases[category] = training_data[count]
-    #         test_case_indexes[category] = count
+    for count, category in enumerate(class_labels):
+        if category not in test_case_indexes.keys():
+            test_cases[category] = training_data[count]
+            test_case_indexes[category] = count
 
-    # training_data = delete(training_data, test_case_indexes.values(), axis = 0)
-    # class_labels = delete(class_labels, test_case_indexes.values(), axis=0)
+    training_data = delete(training_data, test_case_indexes.values(), axis = 0)
+    class_labels = delete(class_labels, test_case_indexes.values(), axis=0)
 
     print "Test cases: {0}".format(test_cases)
     return training_data, class_labels, test_cases
