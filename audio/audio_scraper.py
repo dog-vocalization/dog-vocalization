@@ -7,6 +7,12 @@ import re
 import time
 import glob
 
+
+# This file is used to download songs from YouTube using the seeds listed above.
+# It downloads songs as m4a files, and converts them to wav files.
+# Calling get_audio invokes all the other functions below. External files should only
+# deal with the get_audio function.
+
 AUDIO_DIR = os.getcwd() + "/audio_files/"
 PLAYLIST_SEEDS = {
     "bark": [ 'Fon1IZ0fRSI', 'LH9v-FWY4oU', 'yPkr1XQFNJA', 'AqqJvyRlFwQ' ],
