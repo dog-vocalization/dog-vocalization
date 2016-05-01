@@ -1,13 +1,12 @@
 #!/usr/bin/python
 
-from audio.song_analysis import SongAnalyzer
+import audio.song_analysis as song_analysis
 
 
 if __name__ == "__main__":
-    song_analysis = SongAnalyzer("orEC1_Un_1w")
-    analysis = song_analysis.analyze()
+    analysis, frames = song_analysis.analyze("orEC1_Un_1w")
     # print analysis
-    song_analysis.play(analysis)
+    song_analysis.play(analysis, frames)
 
 
 

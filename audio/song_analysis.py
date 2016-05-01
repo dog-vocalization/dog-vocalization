@@ -4,79 +4,50 @@ import numpy
 from scipy import signal
 from matplotlib import pyplot as pyplot
 import audio_scraper
-import decision_tree
+import decision_tree as tree
 import training_data
 from audio.pymir.AudioFile import AudioFile
-import os
-import time
 import pyaudio
 
 
-class SongAnalyzer():
-    def __init__(self, video_id):
-        self.file_name = audio_scraper.download_song(video_id)
-        self.decision_tree = decision_tree.generate()
-        self.audiofile = AudioFile.open(self.file_name)
-        self.frames = self.audiofile.frames(16384)
+def analyze(video_id):
+    file_name = audio_scraper.download_song(video_id)
+    decision_tree = tree.generate()
+    audio_file = AudioFile.open(file_name)
+    frames = audio_file.frames(16384)
+    analysis = []
 
-    def file_name(self):
-        return self.file_name
+    for frame in frames:
+        frequencies, levels = get_power_spectrum(frame)
+        data = training_data.generate(frequencies, levels)
 
-    def analyze(self):
-        analysis = []
+        try:
+            analysis.append(decision_tree.predict(data))
+        except ValueError as e:
+            print "Encountered error: {0}".format(e)
 
-        for frame in self.frames:
-            frequencies, levels = self.get_power_spectrum(frame)
-            data = training_data.generate(frequencies, levels)
+    return analysis, frames
 
-            try:
-                analysis.append(self.decision_tree.predict(data))
-            except ValueError as e:
-                print "Encountered error: {0}".format(e)
 
-        return analysis
+def get_power_spectrum(frame):
+    spectrum, freqs, bins, _ = pyplot.specgram(frame, NFFT=512,
+                                               window=signal.hanning(512), Fs=44100)
+    levels = -(numpy.log10(numpy.mean(spectrum, axis=1)) ** 2) / 5
+    return freqs, levels
 
-    def get_power_spectrum(self, frame):
-        spectrum, freqs, bins, _ = pyplot.specgram(frame, NFFT=512,
-                                                   window=signal.hanning(512), Fs=44100)
-        levels = -(numpy.log10(numpy.mean(spectrum, axis=1)) ** 2) / 5
-        return freqs, levels
 
-    # This is used to generate a text file with the frequencies and levels, as well as the
-    # manually determined categorization, for a clip of size 16384. Right now it isn't being used
-    # anywhere, but if we want to add more data to the audio_data folder, we can call it on each
-    # frame belonging to this class to do so
-    def import_data(self, frame):
-        frame.play()
+def play(analysis, frames):
+    p = pyaudio.PyAudio()
+    stream = p.open(format=pyaudio.paFloat32, channels=1, rate=44100, output=True)
 
-        category = raw_input("Type b for bark, g for growl, or x for background (or s to skip): ")
-        category_array = {'b': 'bark', 'g': 'growl', 'x': 'background', 's': 'skip'}
-        category = category_array[category]
-        if category == 'skip':
-            return
+    for i in range(0, len(frames)):
+    # Write the audio data to the stream
+        audioData = frames[i].tostring()
+        stream.write(audioData)
+        print analysis[i]
 
-        frequencies, levels = self.get_power_spectrum(frame)
-        file_name = "{0}/audio/audio_data/{1}_{2}.txt".format(os.getcwd(), category, time.time())
-
-        with open(file_name, 'a') as new_file:
-            new_file.write(category + "\n")
-            for i in range(0, len(frequencies)):
-                new_file.write("{0},{1}\n".format(frequencies[i], levels[i]))
-
-            new_file.close()
-
-    def play(self, analysis):
-        p = pyaudio.PyAudio()
-        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=44100, output=True)
-
-        for i in range(0, len(self.frames)):
-        # Write the audio data to the stream
-            audioData = self.frames[i].tostring()
-            stream.write(audioData)
-            print analysis[i]
-
-        # Close the stream
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
+    # Close the stream
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
 
