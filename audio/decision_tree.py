@@ -44,8 +44,8 @@ def build_dataset():
                 frequencies.append(float(line[0]))
                 levels.append(float(line[1]))
 
-        spectrum = training_data.generate(frequencies, levels)
-        dataset.append(spectrum.training_data())
+        data = training_data.generate(frequencies, levels)
+        dataset.append(data)
 
     return dataset, class_labels
 

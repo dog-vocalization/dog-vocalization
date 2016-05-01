@@ -3,24 +3,21 @@
 import numpy
 from scipy import signal
 from matplotlib import pyplot as pyplot
-
 import audio_scraper
 import decision_tree
 import training_data
-
 from audio.pymir.AudioFile import AudioFile
-
 import os
 import time
+import pyaudio
 
 
 class SongAnalyzer():
-
     def __init__(self, video_id):
         self.file_name = audio_scraper.download_song(video_id)
         self.decision_tree = decision_tree.generate()
         self.audiofile = AudioFile.open(self.file_name)
-        self.frames =  self.audiofile.frames(16384)
+        self.frames = self.audiofile.frames(16384)
 
     def file_name(self):
         return self.file_name
@@ -30,8 +27,7 @@ class SongAnalyzer():
 
         for frame in self.frames:
             frequencies, levels = self.get_power_spectrum(frame)
-            analyzer = training_data.generate(frequencies, levels)
-            data = analyzer.training_data()
+            data = training_data.generate(frequencies, levels)
 
             try:
                 analysis.append(self.decision_tree.predict(data))
@@ -42,10 +38,9 @@ class SongAnalyzer():
 
     def get_power_spectrum(self, frame):
         spectrum, freqs, bins, _ = pyplot.specgram(frame, NFFT=512,
-                                            window=signal.hanning(512), Fs=44100)
-        levels = -(numpy.log10(numpy.mean(spectrum, axis=1)) **2)/5
+                                                   window=signal.hanning(512), Fs=44100)
+        levels = -(numpy.log10(numpy.mean(spectrum, axis=1)) ** 2) / 5
         return freqs, levels
-
 
     # This is used to generate a text file with the frequencies and levels, as well as the
     # manually determined categorization, for a clip of size 16384. Right now it isn't being used
@@ -55,7 +50,7 @@ class SongAnalyzer():
         frame.play()
 
         category = raw_input("Type b for bark, g for growl, or x for background (or s to skip): ")
-        category_array = { 'b': 'bark', 'g': 'growl', 'x':'background', 's': 'skip' }
+        category_array = {'b': 'bark', 'g': 'growl', 'x': 'background', 's': 'skip'}
         category = category_array[category]
         if category == 'skip':
             return
@@ -69,3 +64,19 @@ class SongAnalyzer():
                 new_file.write("{0},{1}\n".format(frequencies[i], levels[i]))
 
             new_file.close()
+
+    def play(self, analysis):
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=44100, output=True)
+
+        for i in range(0, len(self.frames)):
+        # Write the audio data to the stream
+            audioData = self.frames[i].tostring()
+            stream.write(audioData)
+            print analysis[i]
+
+        # Close the stream
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+
