@@ -3,7 +3,7 @@
 from numpy import trapz
 from numpy import nan_to_num
 
-BLOCK_SIZE = 500
+BLOCK_SIZE = 100
 
 
 # This function takes in a list of frequencies (ranging from o to 22050 Hz)
@@ -11,7 +11,7 @@ BLOCK_SIZE = 500
 # to the frequencies, levels, and category, and returns it
 def generate(frequencies, levels):
     training_data = []
-    areas = []
+    differences = []
 
     max_value = int(max(frequencies)/BLOCK_SIZE + 1)
     for i in range(1, max_value):
@@ -19,9 +19,9 @@ def generate(frequencies, levels):
         training_data.append(area)
 
         if i > 1:
-            areas.append(training_data[i - 2] - area)
+            differences.append(area/training_data[i - 2])
 
-    # training_data.extend(areas)
+    training_data.extend(differences)
     return nan_to_num(training_data)
 
 

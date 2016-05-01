@@ -8,6 +8,7 @@ import decision_tree as tree
 import training_data
 from audio.pymir.AudioFile import AudioFile
 import pyaudio
+import os
 
 
 def analyze(video_id):
@@ -15,6 +16,8 @@ def analyze(video_id):
     decision_tree = tree.generate()
     audio_file = AudioFile.open(file_name)
     frames = audio_file.frames(16384)
+    save_spectrum_image(audio_file)
+
     analysis = []
 
     for frame in frames:
@@ -32,9 +35,14 @@ def analyze(video_id):
 def get_power_spectrum(frame):
     spectrum, freqs, bins, _ = pyplot.specgram(frame, NFFT=512,
                                                window=signal.hanning(512), Fs=44100)
+
     levels = -(numpy.log10(numpy.mean(spectrum, axis=1)) ** 2) / 5
     return freqs, levels
 
+def save_spectrum_image(frame):
+    spectrum, freqs, bins, _ = pyplot.specgram(frame, NFFT=512,
+                                               window=signal.hanning(512), Fs=44100)
+    pyplot.savefig(os.getcwd() + "/image_files/current_song.png")
 
 def play(analysis, frames):
     p = pyaudio.PyAudio()
