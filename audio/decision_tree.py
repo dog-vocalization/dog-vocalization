@@ -31,6 +31,9 @@ def build_dataset():
 
     for file_name in audacity_files:
 
+        if "SKIP" in file_name:
+            continue
+
         frequencies = []
         levels = []
         with open(file_name, 'r') as file:
@@ -44,7 +47,7 @@ def build_dataset():
                 frequencies.append(float(line[0]))
                 levels.append(float(line[1]))
 
-        data = training_data.generate(frequencies, levels)
+        data = training_data.generate(frequencies, levels, file_name)
         dataset.append(data)
 
     return dataset, class_labels

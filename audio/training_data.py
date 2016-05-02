@@ -9,7 +9,7 @@ BLOCK_SIZE = 100
 # This function takes in a list of frequencies (ranging from o to 22050 Hz)
 # and a list of levels in dB.  It builds a set of training data corresponding
 # to the frequencies, levels, and category, and returns it
-def generate(frequencies, levels):
+def generate(frequencies, levels, file_name):
     training_data = []
     differences = []
 
@@ -22,6 +22,8 @@ def generate(frequencies, levels):
             differences.append(area/training_data[i - 2])
 
     training_data.extend(differences)
+    # if training_data[2] <= -2599.123:
+    #     print file_name
     return nan_to_num(training_data)
 
 
