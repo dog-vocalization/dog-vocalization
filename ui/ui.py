@@ -42,74 +42,90 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(1280, 600)
+        
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        
         self.labelNaviBar = QtGui.QLabel(self.centralwidget)
         self.labelNaviBar.setGeometry(QtCore.QRect(0, 0, 1280, 48))
         self.labelNaviBar.setText(_fromUtf8(""))
         self.labelNaviBar.setPixmap(QtGui.QPixmap(_fromUtf8("images/navibar.png")))
         self.labelNaviBar.setScaledContents(True)
         self.labelNaviBar.setObjectName(_fromUtf8("labelNaviBar"))
+        
         self.labelPlayB = QtGui.QLabel(self.centralwidget)
         self.labelPlayB.setGeometry(QtCore.QRect(0, 480, 1280, 120))
         self.labelPlayB.setText(_fromUtf8(""))
         self.labelPlayB.setPixmap(QtGui.QPixmap(_fromUtf8("images/playerbackground.png")))
         self.labelPlayB.setScaledContents(True)
         self.labelPlayB.setObjectName(_fromUtf8("labelPlayB"))
+        
         self.labelAlbumPic = QtGui.QLabel(self.centralwidget)
         self.labelAlbumPic.setGeometry(QtCore.QRect(20, 500, 75, 75))
         self.labelAlbumPic.setText(_fromUtf8(""))
         self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("images/albumpic.png")))
         self.labelAlbumPic.setScaledContents(True)
         self.labelAlbumPic.setObjectName(_fromUtf8("labelAlbumPic"))
+        
         self.labelHappyEco = QtGui.QLabel(self.centralwidget)
         self.labelHappyEco.setGeometry(QtCore.QRect(620, 350, 90, 90))
         self.labelHappyEco.setText(_fromUtf8(""))
         self.labelHappyEco.setPixmap(QtGui.QPixmap(_fromUtf8("images/happyemo.png")))
         self.labelHappyEco.setScaledContents(True)
         self.labelHappyEco.setObjectName(_fromUtf8("labelHappyEco"))
+        
         self.labelSadEco = QtGui.QLabel(self.centralwidget)
         self.labelSadEco.setGeometry(QtCore.QRect(1130, 350, 90, 90))
         self.labelSadEco.setText(_fromUtf8(""))
         self.labelSadEco.setPixmap(QtGui.QPixmap(_fromUtf8("images/angryemo.png")))
         self.labelSadEco.setScaledContents(True)
         self.labelSadEco.setObjectName(_fromUtf8("labelSadEco"))
+        
         self.labelEmotionBar = QtGui.QLabel(self.centralwidget)
         self.labelEmotionBar.setGeometry(QtCore.QRect(720, 390, 401, 20))
         self.labelEmotionBar.setText(_fromUtf8(""))
         self.labelEmotionBar.setPixmap(QtGui.QPixmap(_fromUtf8("images/emobar.png")))
         self.labelEmotionBar.setScaledContents(True)
         self.labelEmotionBar.setObjectName(_fromUtf8("labelEmotionBar"))
+        
         self.labelPlayBar = QtGui.QLabel(self.centralwidget)
         self.labelPlayBar.setGeometry(QtCore.QRect(590, 540, 482, 3))
         self.labelPlayBar.setText(_fromUtf8(""))
         self.labelPlayBar.setPixmap(QtGui.QPixmap(_fromUtf8("images/playbar.png")))
         self.labelPlayBar.setScaledContents(True)
         self.labelPlayBar.setObjectName(_fromUtf8("labelPlayBar"))
+        
         self.labelVolume = QtGui.QLabel(self.centralwidget)
         self.labelVolume.setGeometry(QtCore.QRect(1110, 530, 27, 25))
         self.labelVolume.setText(_fromUtf8(""))
         self.labelVolume.setPixmap(QtGui.QPixmap(_fromUtf8("images/volume.png")))
         self.labelVolume.setScaledContents(True)
         self.labelVolume.setObjectName(_fromUtf8("labelVolume"))
+        
         self.labelVolumeBar = QtGui.QLabel(self.centralwidget)
         self.labelVolumeBar.setGeometry(QtCore.QRect(1150, 540, 103, 3))
         self.labelVolumeBar.setText(_fromUtf8(""))
         self.labelVolumeBar.setPixmap(QtGui.QPixmap(_fromUtf8("images/volumebar.png")))
         self.labelVolumeBar.setScaledContents(True)
         self.labelVolumeBar.setObjectName(_fromUtf8("labelVolumeBar"))
+        
         self.playStopButton = QtGui.QPushButton(self.centralwidget)
         self.playStopButton.setGeometry(QtCore.QRect(375, 515, 50, 50))
+        
         palette = QtGui.QPalette()
+        
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        
         self.playStopButton.setPalette(palette)
         self.playStopButton.setAutoFillBackground(False)
         self.playStopButton.setText(_fromUtf8(""))
@@ -118,6 +134,7 @@ class Ui_MainWindow(object):
         self.playStopButton.setIcon(icon)
         self.playStopButton.setIconSize(QtCore.QSize(50, 50))
         self.playStopButton.setObjectName(_fromUtf8("playStopButton"))
+        
         self.lastButton = QtGui.QPushButton(self.centralwidget)
         self.lastButton.setGeometry(QtCore.QRect(280, 530, 34, 20))
         self.lastButton.setText(_fromUtf8(""))
@@ -126,6 +143,7 @@ class Ui_MainWindow(object):
         self.lastButton.setIcon(icon1)
         self.lastButton.setIconSize(QtCore.QSize(34, 20))
         self.lastButton.setObjectName(_fromUtf8("lastButton"))
+        
         self.nextButton = QtGui.QPushButton(self.centralwidget)
         self.nextButton.setGeometry(QtCore.QRect(480, 530, 34, 20))
         self.nextButton.setText(_fromUtf8(""))
@@ -134,9 +152,11 @@ class Ui_MainWindow(object):
         self.nextButton.setIcon(icon2)
         self.nextButton.setIconSize(QtCore.QSize(34, 20))
         self.nextButton.setObjectName(_fromUtf8("nextButton"))
+        
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(770, 280, 401, 21))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        
         self.youtubeLabel = QtGui.QLabel(self.centralwidget)
         self.youtubeLabel.setGeometry(QtCore.QRect(620, 280, 141, 31))
         font = QtGui.QFont()
@@ -145,13 +165,18 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         self.youtubeLabel.setFont(font)
         self.youtubeLabel.setObjectName(_fromUtf8("youtubeLabel"))
+        
         self.okButton = QtGui.QPushButton(self.centralwidget)
         self.okButton.setGeometry(QtCore.QRect(1180, 270, 71, 41))
         self.okButton.setObjectName(_fromUtf8("okButton"))
+        
         self.diagramPic = QtGui.QLabel(self.centralwidget)
         self.diagramPic.setGeometry(QtCore.QRect(100, 70, 400, 400))
         self.diagramPic.setText(_fromUtf8(""))
+        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("images/examplePic.png")))
+        self.diagramPic.setScaledContents(True)
         self.diagramPic.setObjectName(_fromUtf8("diagramPic"))
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.playStopButton.clicked.connect(self.playStopMusic)
