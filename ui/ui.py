@@ -23,6 +23,21 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(object):
+
+    def playStopMusic(self):
+        print("Play or stop music here")
+        print("Change icon to play if its paused")
+        print("Change icon to pause if its played")
+    
+    def goToLastMusic(self):
+        print("Go to last music")
+    
+    def goToNextMusic(self):
+        print("Go to next music")
+
+    def sendYoutubeID(self):
+        print("Send Youtube ID")
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(1280, 800)
@@ -195,10 +210,10 @@ class Ui_MainWindow(object):
         self.okButton.setGeometry(QtCore.QRect(1205, 135, 51, 41))
         self.okButton.setObjectName(_fromUtf8("okButton"))
         MainWindow.setCentralWidget(self.centralwidget)
-        self.playStopButton.clicked.connect(playStopMusic)
-        self.lastButton.clicked.connect(goToLastMusic)
-        self.nextButton.clicked.connect(goToNextMusic)
-        self.okButton.clicked.connect(sendYoutubeID)
+        self.playStopButton.clicked.connect(self.playStopMusic)
+        self.lastButton.clicked.connect(self.goToLastMusic)
+        self.nextButton.clicked.connect(self.goToNextMusic)
+        self.okButton.clicked.connect(self.sendYoutubeID)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -220,19 +235,6 @@ if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
-
-    def playStopMusic():
-        print("Play or stop music here")
-        print("Change icon to play if its paused")
-        print("Change icon to pause if its played")
-    def goToLastMusic():
-        print("Go to last music")
-    def goToNextMusic():
-        print("Go to next music")
-
-    def sendYoutubeID():
-        print("Send Youtube ID")
-
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
