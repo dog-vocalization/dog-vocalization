@@ -49,6 +49,8 @@ class Ui_MainWindow(object):
 
     ## called when Submit button pressed to pass YouTubeID
     def sendYoutubeID(self):
+        self.diagramPic.show()
+
         video_id = self.lineEdit.text()
 
         try:
@@ -58,7 +60,6 @@ class Ui_MainWindow(object):
             return
 
         self.play(analysis, frames)
-        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8(os.getcwd() + "/image_files/current_song.png")))
 
     def play(self, analysis, frames):
         p = pyaudio.PyAudio()
@@ -78,7 +79,6 @@ class Ui_MainWindow(object):
     def broadcast(self, category):
         print category
         # NEED TO DO SOMETHING HERE
-
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
@@ -219,9 +219,11 @@ class Ui_MainWindow(object):
         self.diagramPic = QtGui.QLabel(self.centralwidget)
         self.diagramPic.setGeometry(QtCore.QRect(100, 70, 400, 400))
         self.diagramPic.setText(_fromUtf8(""))
-        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("")))
+        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("images/current_song.png")))
         self.diagramPic.setScaledContents(True)
         self.diagramPic.setObjectName(_fromUtf8("diagramPic"))
+
+        self.diagramPic.hide()
 
         MainWindow.setCentralWidget(self.centralwidget)
 
