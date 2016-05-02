@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 import audio.song_analysis as song_analysis
 import pyaudio
 import os
+import time
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -47,19 +48,26 @@ class Ui_MainWindow(object):
         print("Go to next music")
         self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
 
+    isFirstTime = True
     ## called when Submit button pressed to pass YouTubeID
     def sendYoutubeID(self):
-        self.diagramPic.show()
 
-        video_id = self.lineEdit.text()
+        if self.isFirstTime:
 
-        try:
-            analysis, frames = song_analysis.analyze(video_id)
-        except Exception as e:
-            print "Cannot download YouTube audio for ID {0}: {1}".format(video_id, e)
-            return
+            time.sleep(4)
+            self.diagramPic.show()
+            self.isFirstTime = False
+            self.okButton.setText("Start Analysis")
+        else:
+            video_id = self.lineEdit.text()
 
-        self.play(analysis, frames)
+            try:
+                analysis, frames = song_analysis.analyze(video_id)
+            except Exception as e:
+                print "Cannot download YouTube audio for ID {0}: {1}".format(video_id, e)
+                return
+
+            self.play(analysis, frames)
 
     def play(self, analysis, frames):
         p = pyaudio.PyAudio()
@@ -200,11 +208,11 @@ class Ui_MainWindow(object):
         self.nextButton.setObjectName(_fromUtf8("nextButton"))
 
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(770, 280, 401, 21))
+        self.lineEdit.setGeometry(QtCore.QRect(750, 280, 401, 21))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
 
         self.youtubeLabel = QtGui.QLabel(self.centralwidget)
-        self.youtubeLabel.setGeometry(QtCore.QRect(620, 280, 141, 31))
+        self.youtubeLabel.setGeometry(QtCore.QRect(600, 280, 141, 31))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Consolas"))
         font.setPointSize(24)
@@ -213,7 +221,7 @@ class Ui_MainWindow(object):
         self.youtubeLabel.setObjectName(_fromUtf8("youtubeLabel"))
 
         self.okButton = QtGui.QPushButton(self.centralwidget)
-        self.okButton.setGeometry(QtCore.QRect(1180, 270, 71, 41))
+        self.okButton.setGeometry(QtCore.QRect(1160, 270, 120, 41))
         self.okButton.setObjectName(_fromUtf8("okButton"))
 
         self.diagramPic = QtGui.QLabel(self.centralwidget)
@@ -239,7 +247,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.youtubeLabel.setText(_translate("MainWindow", "Youtube ID:", None))
-        self.okButton.setText(_translate("MainWindow", "Submit", None))
+        self.okButton.setText(_translate("MainWindow", "Process", None))
 
 if __name__ == "__main__":
     import sys
