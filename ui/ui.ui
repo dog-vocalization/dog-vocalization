@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>800</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>680</y>
+      <y>480</y>
       <width>1280</width>
       <height>120</height>
      </rect>
@@ -56,7 +56,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>700</y>
+      <y>500</y>
       <width>75</width>
       <height>75</height>
      </rect>
@@ -71,183 +71,13 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="labelTrack1B">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>288</y>
-      <width>1225</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/trackname1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack3B">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>368</y>
-      <width>1225</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/trackname1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack5B">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>448</y>
-      <width>1225</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/trackname1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack7B">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>528</y>
-      <width>1225</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/trackname1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack1">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>300</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>01 Top of the world        by Imagine Dragons</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack3">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>380</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>03 Sail                            by AWOLNATION</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack2">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>340</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>02 Girlfriend                   by Avril Lavigne</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack4">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>420</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>04 HELP                         by The Beatles</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack6">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>500</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>05 Baby                          by Justin Bieber</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack7">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>540</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>06 Roar                          by Katy Perry</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelTrack5">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>460</y>
-      <width>341</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>05 Toxic                          by Britney Spears</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="labelHappyEco">
     <property name="geometry">
      <rect>
-      <x>874</x>
-      <y>182</y>
-      <width>53</width>
-      <height>53</height>
+      <x>620</x>
+      <y>350</y>
+      <width>90</width>
+      <height>90</height>
      </rect>
     </property>
     <property name="text">
@@ -263,10 +93,10 @@
    <widget class="QLabel" name="labelSadEco">
     <property name="geometry">
      <rect>
-      <x>1192</x>
-      <y>182</y>
-      <width>53</width>
-      <height>53</height>
+      <x>1130</x>
+      <y>350</y>
+      <width>90</width>
+      <height>90</height>
      </rect>
     </property>
     <property name="text">
@@ -282,10 +112,10 @@
    <widget class="QLabel" name="labelEmotionBar">
     <property name="geometry">
      <rect>
-      <x>954</x>
-      <y>208</y>
-      <width>213</width>
-      <height>3</height>
+      <x>720</x>
+      <y>390</y>
+      <width>401</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -298,81 +128,11 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="labelUploadB">
-    <property name="geometry">
-     <rect>
-      <x>859</x>
-      <y>93</y>
-      <width>346</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/upload.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelRecord">
-    <property name="geometry">
-     <rect>
-      <x>1215</x>
-      <y>93</y>
-      <width>30</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/record.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelUpload">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>103</y>
-      <width>131</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Upload / Add File Path</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelPlaying">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>300</y>
-      <width>17</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>images/playing.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="labelPlayBar">
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>740</y>
+      <y>540</y>
       <width>482</width>
       <height>3</height>
      </rect>
@@ -391,7 +151,7 @@
     <property name="geometry">
      <rect>
       <x>1110</x>
-      <y>730</y>
+      <y>530</y>
       <width>27</width>
       <height>25</height>
      </rect>
@@ -410,7 +170,7 @@
     <property name="geometry">
      <rect>
       <x>1150</x>
-      <y>740</y>
+      <y>540</y>
       <width>103</width>
       <height>3</height>
      </rect>
@@ -429,7 +189,7 @@
     <property name="geometry">
      <rect>
       <x>375</x>
-      <y>715</y>
+      <y>515</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -492,7 +252,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>730</y>
+      <y>530</y>
       <width>34</width>
       <height>20</height>
      </rect>
@@ -515,7 +275,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>730</y>
+      <y>530</y>
       <width>34</width>
       <height>20</height>
      </rect>
@@ -537,21 +297,28 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>140</y>
-      <width>341</width>
+      <x>770</x>
+      <y>280</y>
+      <width>401</width>
       <height>21</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="youtubeLabel">
     <property name="geometry">
      <rect>
-      <x>780</x>
-      <y>140</y>
-      <width>71</width>
-      <height>20</height>
+      <x>620</x>
+      <y>280</y>
+      <width>141</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>24</pointsize>
+      <italic>false</italic>
+     </font>
     </property>
     <property name="text">
      <string>Youtube ID</string>
@@ -560,14 +327,27 @@
    <widget class="QPushButton" name="okButton">
     <property name="geometry">
      <rect>
-      <x>1205</x>
-      <y>135</y>
-      <width>51</width>
+      <x>1180</x>
+      <y>270</y>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>OK</string>
+     <string>Submit</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="diagramPic">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>70</y>
+      <width>400</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
