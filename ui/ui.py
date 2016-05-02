@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         try:
             analysis, frames = song_analysis.analyze(video_id)
         except Exception as e:
-            print "Cannot download YouTube audio for ID " + video_id + ": " + e
+            print "Cannot download YouTube audio for ID {0}: {1}".format(video_id, e)
             return
 
         self.play(analysis, frames)
