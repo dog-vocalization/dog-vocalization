@@ -4,15 +4,21 @@ import pafy
 from pydub import AudioSegment
 
 import os
-import subprocess
 import re
 import time
 import glob
 
+# This file is used to download songs from YouTube using the seeds listed above.
+# It downloads songs as m4a files, and converts them to wav files.
+# Calling get_audio invokes all the other functions below. External files should only
+# deal with the get_audio function.
+
+#AUDIO_DIR = os.getcwd() + "/audio_files/"
 AUDIO_DIR = os.getcwd() + "/audio/audio_files/"
+
 PLAYLIST_SEEDS = {
-    "happy": "wrvqHw4wE_Q",
-    "angry": "orEC1_Un_1w"
+    "bark": [ 'Fon1IZ0fRSI', 'LH9v-FWY4oU', 'yPkr1XQFNJA', 'AqqJvyRlFwQ' ],
+    "growl": [ 'aOXoZe1TmMs', 'mxNRm0Dboww', 'O6oeg0qaI-Q', '05W9SXQieEA', 'H_OHwDtOjUk']
 }
 
 """
@@ -21,9 +27,9 @@ Iterate over playlist seeds to collect or download all audio to audio_dir.
 Returns the list of audio file paths collected from audio_dir.
 """
 def get_all_audio(audio_dir = AUDIO_DIR):
-
+    
     audio_files = {}
-    for mood, video_id in PLAYLIST_SEEDS.iteritems():
+    for mood, seed_list in PLAYLIST_SEEDS.iteritems():
         audio_files[mood] = glob.glob(audio_dir + mood.upper() + '*.wav')
         if len(audio_files[mood]) is 0:
             audio_files = download_all_audio()
@@ -31,8 +37,8 @@ def get_all_audio(audio_dir = AUDIO_DIR):
     return audio_files
 
 """
-Wrapper for download_playlist that passes each distinct seed and groups it by
-the associated mood
+Wrapper for download_playlist that passes each distinct seed and groups and tags 
+it by the associated mood
 
 Returns the dictionary audio_files, mapping a mood to a list of associated audio
 """
@@ -40,11 +46,12 @@ def download_all_audio(audio_dir = AUDIO_DIR):
 
     audio_files = {}
 
-    for mood, video_id in PLAYLIST_SEEDS.iteritems():
+    for mood, seed_list in PLAYLIST_SEEDS.iteritems():
         audio_files[mood] = [] #not sure if this line is necessary
         
-        wav_files = download_playlist(mood, video_id)
-        audio_files[mood] = wav_files
+        for video_id in seed_list:
+            wav_files = download_playlist(mood+"_{}".format(video_id), video_id)
+            audio_files[mood].append(wav_files)
 
     print "\n********** Finished downloading audio files \n"
     return audio_files
@@ -53,10 +60,13 @@ def download_all_audio(audio_dir = AUDIO_DIR):
 """
 Download's the audio of a YT mix playlist based on a seed video id
 
+Optional parameter to select max download number.
+
 Returns the list of converted audio files that were downloaded.
 """
 def download_playlist(tag, video_id, max_downloads=None, audio_dir=AUDIO_DIR):
-    print "Downloading playlist for [Tag:'{0}', Seed:'{1}]'\n".format(tag.upper(),video_id)
+
+    print "Downloading playlist for [Tag:'{0}', Seed:'{1}]'...\n".format(tag.upper(),video_id)
 
     #use seed_video to generate mix playlist id
     seed_video = pafy.new(video_id)
@@ -119,21 +129,7 @@ User MUST have FFMPEG installed on their system path/system environ variables
 
 !CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
 to system PATH variables in order to properly run FFMPEG.
-
-Returns path to new wav file.
-"""
-def convert_to_wav(m4a_file,audio_dir = AUDIO_DIR):
-    
-    wav_file = m4a_file[:-4] + '.wav'
-    
-    m4a = AudioSegment.from_file(m4a_file)
-    m4a.export(wav_file,format="wav")
-    
-    while not os.path.isfile(wav_file):
-        time.sleep(1)
-    
-    return wav_file
-
+"""  
 def download_m4a(video_id,audio_dir=AUDIO_DIR):
     video = pafy.new(video_id)
     stream = video.getbestaudio(preftype="m4a")
@@ -155,6 +151,28 @@ def get_m4a(video_id, audio_dir = AUDIO_DIR):
         m4a_file = stream.download(filepath = m4a_file)
     
     return m4a_file
+
+
+"""
+Relies on users' FFMPEG install to convert m4a to wav
+User MUST have FFMPEG installed on their system path/system environ variables
+
+!CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
+to system PATH variables in order to properly run FFMPEG.
+
+Also expects "Pydub" library.  (pip install pydub)
+"""
+def convert_to_wav(m4a_file,audio_dir = AUDIO_DIR):  
+    wav_file = m4a_file[:-4] + '.wav'
+    
+    m4a = AudioSegment.from_file(m4a_file)
+    m4a.export(wav_file,format="wav")
+    
+    while not os.path.isfile(wav_file):
+        time.sleep(1)
+    
+    return wav_file
+
 
 def split_audio(music_file, audio_dir = AUDIO_DIR):
     print "Splitting '{}' into 3-minute chunks...".format(music_file)
@@ -178,3 +196,14 @@ def split_audio(music_file, audio_dir = AUDIO_DIR):
         new_clips.append(new_clip)        
         index+=1
     return new_clips
+
+def test_audio_scraper():
+     wav_files = audio_scraper.download_playlist("test","8QEJDE2WjPA",max_downloads=2)
+     m4a_file = audio_scraper.get_m4a("8QEJDE2WjPA")
+     wav_file = audio_scraper.convert_to_wav(m4a_file)
+     wav_set = audio_scraper.split_audio(wav_files[1])
+     print "Files from split: "
+     for wav in wav_set:
+         print wav
+ #    test_audio_scraper()
+ #    audio_files = audio_scraper.get_all_audio()
