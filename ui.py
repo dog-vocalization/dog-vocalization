@@ -219,7 +219,7 @@ class Ui_MainWindow(object):
         self.diagramPic = QtGui.QLabel(self.centralwidget)
         self.diagramPic.setGeometry(QtCore.QRect(100, 70, 400, 400))
         self.diagramPic.setText(_fromUtf8(""))
-        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("images/examplePic.png")))
+        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("")))
         self.diagramPic.setScaledContents(True)
         self.diagramPic.setObjectName(_fromUtf8("diagramPic"))
 
