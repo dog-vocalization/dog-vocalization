@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         print("Play or stop music here")
         print("Change icon to play if its paused")
         print("Change icon to pause if its played")
-    
+
     def goToLastMusic(self):
         print("Go to last music")
     
@@ -37,6 +37,7 @@ class Ui_MainWindow(object):
 
     def sendYoutubeID(self):
         print("Send Youtube ID")
+        print(self.lineEdit.text)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
