@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'ui.ui'
-#
-# Created by: PyQt4 UI code generator 4.11.4
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -42,9 +34,11 @@ class Ui_MainWindow(object):
 
     def goToLastMusic(self):
         print("Go to last music")
-    
+        self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
+
     def goToNextMusic(self):
         print("Go to next music")
+        self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
 
     def sendYoutubeID(self):
         print("Send Youtube ID")
