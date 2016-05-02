@@ -169,7 +169,6 @@ class Ui_MainWindow(object):
         self.playStopButton.setIcon(icon)
         self.playStopButton.setIconSize(QtCore.QSize(50, 50))
         self.playStopButton.setObjectName(_fromUtf8("playStopButton"))
-        self.playStopButton.clicked.connect(playStopMusic)
         self.lastButton = QtGui.QPushButton(self.centralwidget)
         self.lastButton.setGeometry(QtCore.QRect(280, 730, 34, 20))
         self.lastButton.setText(_fromUtf8(""))
@@ -178,7 +177,6 @@ class Ui_MainWindow(object):
         self.lastButton.setIcon(icon1)
         self.lastButton.setIconSize(QtCore.QSize(34, 20))
         self.lastButton.setObjectName(_fromUtf8("lastButton"))
-        self.lastButton.clicked.connect(goToLastMusic)
         self.nextButton = QtGui.QPushButton(self.centralwidget)
         self.nextButton.setGeometry(QtCore.QRect(480, 730, 34, 20))
         self.nextButton.setText(_fromUtf8(""))
@@ -187,8 +185,20 @@ class Ui_MainWindow(object):
         self.nextButton.setIcon(icon2)
         self.nextButton.setIconSize(QtCore.QSize(34, 20))
         self.nextButton.setObjectName(_fromUtf8("nextButton"))
-        self.nextButton.clicked.connect(goToNextMusic)
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(860, 140, 341, 21))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(780, 140, 71, 20))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.okButton = QtGui.QPushButton(self.centralwidget)
+        self.okButton.setGeometry(QtCore.QRect(1205, 135, 51, 41))
+        self.okButton.setObjectName(_fromUtf8("okButton"))
         MainWindow.setCentralWidget(self.centralwidget)
+        self.playStopButton.clicked.connect(playStopMusic)
+        self.lastButton.clicked.connect(goToLastMusic)
+        self.nextButton.clicked.connect(goToNextMusic)
+        self.okButton.clicked.connect(sendYoutubeID)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -203,6 +213,8 @@ class Ui_MainWindow(object):
         self.labelTrack7.setText(_translate("MainWindow", "06 Roar                          by Katy Perry", None))
         self.labelTrack5.setText(_translate("MainWindow", "05 Toxic                          by Britney Spears", None))
         self.labelUpload.setText(_translate("MainWindow", "Upload / Add File Path", None))
+        self.label.setText(_translate("MainWindow", "Youtube ID", None))
+        self.okButton.setText(_translate("MainWindow", "OK", None))
 
 if __name__ == "__main__":
     import sys
@@ -210,13 +222,16 @@ if __name__ == "__main__":
     MainWindow = QtGui.QMainWindow()
 
     def playStopMusic():
-        print("play or stop music here")
+        print("Play or stop music here")
         print("Change icon to play if its paused")
         print("Change icon to pause if its played")
     def goToLastMusic():
         print("Go to last music")
     def goToNextMusic():
         print("Go to next music")
+
+    def sendYoutubeID():
+        print("Send Youtube ID")
 
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
