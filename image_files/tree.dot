@@ -7,14 +7,14 @@ node [shape=box] ;
 1 -> 2 ;
 3 [label="gini = 0.0\nsamples = 42\nvalue = [0, 42, 0]"] ;
 1 -> 3 ;
-4 [label="X[229] <= 1.1167\ngini = 0.1305\nsamples = 57\nvalue = [0, 4, 53]"] ;
+4 [label="X[230] <= 1.1063\ngini = 0.1305\nsamples = 57\nvalue = [0, 4, 53]"] ;
 0 -> 4 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
 5 [label="gini = 0.0\nsamples = 3\nvalue = [0, 3, 0]"] ;
 4 -> 5 ;
-6 [label="X[223] <= 1.202\ngini = 0.0364\nsamples = 54\nvalue = [0, 1, 53]"] ;
+6 [label="X[236] <= 1.0805\ngini = 0.0364\nsamples = 54\nvalue = [0, 1, 53]"] ;
 4 -> 6 ;
-7 [label="gini = 0.0\nsamples = 1\nvalue = [0, 1, 0]"] ;
+7 [label="gini = 0.0\nsamples = 53\nvalue = [0, 0, 53]"] ;
 6 -> 7 ;
-8 [label="gini = 0.0\nsamples = 53\nvalue = [0, 0, 53]"] ;
+8 [label="gini = 0.0\nsamples = 1\nvalue = [0, 1, 0]"] ;
 6 -> 8 ;
 }
