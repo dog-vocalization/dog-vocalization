@@ -122,6 +122,51 @@ def download_playlist(tag, video_id, max_downloads=None, audio_dir=AUDIO_DIR):
     print "Playlist download completed\n"
     return wav_files
 
+"""
+Download and convert a seed video
+
+Returns the file path of the audio  downloaded.
+"""
+def get_wav_from_vid(video_id, audio_dir = AUDIO_DIR):
+
+    print "Downloading video".format(video_id)
+
+    #use seed_video to generate mix playlist id
+    seed_video = pafy.new(video_id)
+    video = pafy.new(video_id) #process seed video
+        
+    #select stream with the best m4a audio
+    stream = video.getbestaudio(preftype="m4a")
+    title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
+
+    #initialize local audio file paths
+    m4a_file = audio_dir + title + "." + stream.extension
+    wav_file = m4a_file[:-4] + '.wav'
+        
+    #if m4a doeasn't exist, download it
+    print "Checking for previous download of {0}.m4a...".format(title)
+    if not (os.path.isfile(m4a_file) or os.path.isfile(wav_file)):
+        print "\tDownloading m4a ..."
+        m4a_file = stream.download(filepath = m4a_file,quiet=True)
+        print "\tDownload complete."
+        
+        #if wav doesn't exist, download it
+        print "Checking for previous download of {0}.wav...".format(title) 
+        if not os.path.isfile(wav_file):
+            print "\tConverting m4a to wav ..."
+            wav_file = convert_to_wav(m4a_file)
+            print "\tConversion complete"
+    
+            #Delete the m4a file after conversion
+            try: 
+                print "\n\tDeleting original m4a file..."
+                os.remove(m4a_file)
+                print "\tDeletion of original m4a complete"
+            except Exception as e:
+                print str(e) + ": unable to remove m4a due to an unexpected exception..."  
+    
+    print "Download and conversion completed\n"
+    return wav_file
 
 """
 Relies on users' FFMPEG install to convert m4a to wav
