@@ -55,6 +55,8 @@ class Ui_MainWindow(object):
         if self.isFirstTime:
 
             time.sleep(4)
+            self.diagramPicE.hide()
+            self.labelAlbumPicE.hide()
             self.diagramPic.show()
             self.labelAlbumPic.show()
             self.isFirstTime = False
@@ -117,6 +119,13 @@ class Ui_MainWindow(object):
         self.labelAlbumPic.setScaledContents(True)
         self.labelAlbumPic.setObjectName(_fromUtf8("labelAlbumPic"))
         self.labelAlbumPic.hide()
+
+        self.labelAlbumPicE = QtGui.QLabel(self.centralwidget)
+        self.labelAlbumPicE.setGeometry(QtCore.QRect(20, 500, 75, 75))
+        self.labelAlbumPicE.setText(_fromUtf8(""))
+        self.labelAlbumPicE.setScaledContents(True)
+        self.labelAlbumPicE.setObjectName(_fromUtf8("labelAlbumPic"))
+        self.labelAlbumPicE.setStyleSheet("background-color: gray")
 
         self.labelHappyEco = QtGui.QLabel(self.centralwidget)
         self.labelHappyEco.setGeometry(QtCore.QRect(620, 350, 90, 90))
@@ -222,9 +231,25 @@ class Ui_MainWindow(object):
         self.youtubeLabel.setFont(font)
         self.youtubeLabel.setObjectName(_fromUtf8("youtubeLabel"))
 
+        self.titleLabel = QtGui.QLabel(self.centralwidget)
+        self.titleLabel.setGeometry(QtCore.QRect(630, 90, 600, 150))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Consolas"))
+        font.setPointSize(50)
+        font.setItalic(False)
+        self.titleLabel.setFont(font)
+        self.titleLabel.setObjectName(_fromUtf8("titleLabel"))
+
         self.okButton = QtGui.QPushButton(self.centralwidget)
         self.okButton.setGeometry(QtCore.QRect(1160, 270, 120, 41))
         self.okButton.setObjectName(_fromUtf8("okButton"))
+
+        self.diagramPicE = QtGui.QLabel(self.centralwidget)
+        self.diagramPicE.setGeometry(QtCore.QRect(100, 70, 400, 400))
+        self.diagramPicE.setText(_fromUtf8(""))
+        self.diagramPicE.setPixmap(QtGui.QPixmap(_fromUtf8("images/examplePicE.png")))
+        self.diagramPicE.setScaledContents(True)
+        self.diagramPicE.setObjectName(_fromUtf8("diagramPic"))
 
         self.diagramPic = QtGui.QLabel(self.centralwidget)
         self.diagramPic.setGeometry(QtCore.QRect(100, 70, 400, 400))
@@ -250,6 +275,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.youtubeLabel.setText(_translate("MainWindow", "Youtube ID:", None))
         self.okButton.setText(_translate("MainWindow", "Process", None))
+        self.titleLabel.setText(_translate("MainWindow", "    Dog Vocalization\n\tAnalysis", None))
 
 if __name__ == "__main__":
     import sys
