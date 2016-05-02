@@ -56,6 +56,7 @@ class Ui_MainWindow(object):
 
             time.sleep(4)
             self.diagramPic.show()
+            self.labelAlbumPic.show()
             self.isFirstTime = False
             self.okButton.setText("Start Analysis")
         else:
@@ -115,6 +116,7 @@ class Ui_MainWindow(object):
         self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("images/albumpic.png")))
         self.labelAlbumPic.setScaledContents(True)
         self.labelAlbumPic.setObjectName(_fromUtf8("labelAlbumPic"))
+        self.labelAlbumPic.hide()
 
         self.labelHappyEco = QtGui.QLabel(self.centralwidget)
         self.labelHappyEco.setGeometry(QtCore.QRect(620, 350, 90, 90))
