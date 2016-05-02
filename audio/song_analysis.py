@@ -25,7 +25,7 @@ def analyze(video_id):
 
     for frame in frames:
         frequencies, levels = get_power_spectrum(frame)
-        data = training_data.generate(frequencies, levels)
+        data = training_data.generate(frequencies, levels, file_name)
 
         try:
             analysis.append(decision_tree.predict(data))
