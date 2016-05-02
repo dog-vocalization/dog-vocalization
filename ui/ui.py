@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
 
     def sendYoutubeID(self):
         print("Send Youtube ID")
-        print(self.lineEdit.text)
+        print(self.lineEdit.text())
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
@@ -211,6 +211,7 @@ class Ui_MainWindow(object):
         self.okButton.setGeometry(QtCore.QRect(1205, 135, 51, 41))
         self.okButton.setObjectName(_fromUtf8("okButton"))
         MainWindow.setCentralWidget(self.centralwidget)
+
         self.playStopButton.clicked.connect(self.playStopMusic)
         self.lastButton.clicked.connect(self.goToLastMusic)
         self.nextButton.clicked.connect(self.goToNextMusic)
