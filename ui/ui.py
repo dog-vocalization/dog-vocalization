@@ -24,10 +24,21 @@ except AttributeError:
 
 class Ui_MainWindow(object):
 
+    isPlaying = False
+
     def playStopMusic(self):
         print("Play or stop music here")
-        print("Change icon to play if its paused")
-        print("Change icon to pause if its played")
+
+        if self.isPlaying:
+            self.isPlaying = False
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playStopButton.setIcon(icon)
+        else:
+            self.isPlaying = True
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playStopButton.setIcon(icon)        
 
     def goToLastMusic(self):
         print("Go to last music")
@@ -38,6 +49,7 @@ class Ui_MainWindow(object):
     def sendYoutubeID(self):
         print("Send Youtube ID")
         print(self.lineEdit.text())
+        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
@@ -129,27 +141,29 @@ class Ui_MainWindow(object):
         self.playStopButton.setPalette(palette)
         self.playStopButton.setAutoFillBackground(False)
         self.playStopButton.setText(_fromUtf8(""))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.playStopButton.setIcon(icon)
+        playIcon = QtGui.QIcon()
+        playIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        pauseIcon = QtGui.QIcon()
+        pauseIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.playStopButton.setIcon(playIcon)
         self.playStopButton.setIconSize(QtCore.QSize(50, 50))
         self.playStopButton.setObjectName(_fromUtf8("playStopButton"))
         
         self.lastButton = QtGui.QPushButton(self.centralwidget)
         self.lastButton.setGeometry(QtCore.QRect(280, 530, 34, 20))
         self.lastButton.setText(_fromUtf8(""))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("images/last.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.lastButton.setIcon(icon1)
+        lastIcon = QtGui.QIcon()
+        lastIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/last.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.lastButton.setIcon(lastIcon)
         self.lastButton.setIconSize(QtCore.QSize(34, 20))
         self.lastButton.setObjectName(_fromUtf8("lastButton"))
         
         self.nextButton = QtGui.QPushButton(self.centralwidget)
         self.nextButton.setGeometry(QtCore.QRect(480, 530, 34, 20))
         self.nextButton.setText(_fromUtf8(""))
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("images/next.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.nextButton.setIcon(icon2)
+        nextIcon = QtGui.QIcon()
+        nextIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/next.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nextButton.setIcon(nextIcon)
         self.nextButton.setIconSize(QtCore.QSize(34, 20))
         self.nextButton.setObjectName(_fromUtf8("nextButton"))
         
