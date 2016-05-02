@@ -15,7 +15,7 @@ import training_data
 
 
 def analyze(video_id):
-    file_name = audio_scraper.download_m4a(video_id)
+    file_name = audio_scraper.get_wav_from_vid(video_id)
     decision_tree = tree.generate()
     audio_file = AudioFile.open(file_name)
     frames = audio_file.frames(16384)
