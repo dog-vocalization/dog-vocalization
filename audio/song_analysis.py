@@ -1,18 +1,21 @@
 #!/usr/bin/python
 
+import os
+
 import numpy
 from scipy import signal
 from matplotlib import pyplot as pyplot
+
+from audio.pymir.AudioFile import AudioFile
+import pyaudio
+
 import audio_scraper
 import decision_tree as tree
 import training_data
-from audio.pymir.AudioFile import AudioFile
-import pyaudio
-import os
 
 
 def analyze(video_id):
-    file_name = audio_scraper.download_song(video_id)
+    file_name = audio_scraper.download_m4a(video_id)
     decision_tree = tree.generate()
     audio_file = AudioFile.open(file_name)
     frames = audio_file.frames(16384)
