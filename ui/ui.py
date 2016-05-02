@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'ui.ui'
-#
-# Created by: PyQt4 UI code generator 4.11.4
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt4 import QtCore, QtGui
 
 import audio.song_analysis as song_analysis
 import pyaudio
+import os
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -27,20 +20,34 @@ except AttributeError:
 
 class Ui_MainWindow(object):
 
-    # Don't need
+    isPlaying = False
+
+    ## called when music play/pause button pressed
     def playStopMusic(self):
         print("Play or stop music here")
-        print("Change icon to play if its paused")
-        print("Change icon to pause if its played")
 
-    # Don't need
+        if self.isPlaying:
+            self.isPlaying = False
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playStopButton.setIcon(icon)
+        else:
+            self.isPlaying = True
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playStopButton.setIcon(icon)
+
+    ## called when previous music button pressed
     def goToLastMusic(self):
         print("Go to last music")
+        self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
 
-    # Don't need
+    ## called when next music button pressed
     def goToNextMusic(self):
         print("Go to next music")
+        self.labelAlbumPic.setPixmap(QtGui.QPixmap(_fromUtf8("PATH TO NEW IMAGE")))
 
+    ## called when Submit button pressed to pass YouTubeID
     def sendYoutubeID(self):
         video_id = self.lineEdit.text()
 
@@ -51,6 +58,7 @@ class Ui_MainWindow(object):
             return
 
         self.play(analysis, frames)
+        self.diagramPic.setPixmap(QtGui.QPixmap(_fromUtf8(os.getcwd() + "/image_files/current_song.png")))
 
     def play(self, analysis, frames):
         p = pyaudio.PyAudio()
@@ -162,27 +170,32 @@ class Ui_MainWindow(object):
         self.playStopButton.setPalette(palette)
         self.playStopButton.setAutoFillBackground(False)
         self.playStopButton.setText(_fromUtf8(""))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.playStopButton.setIcon(icon)
+        self.playStopButton.setStyleSheet("background-color: transparent")
+        playIcon = QtGui.QIcon()
+        playIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        pauseIcon = QtGui.QIcon()
+        pauseIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.playStopButton.setIcon(playIcon)
         self.playStopButton.setIconSize(QtCore.QSize(50, 50))
         self.playStopButton.setObjectName(_fromUtf8("playStopButton"))
 
         self.lastButton = QtGui.QPushButton(self.centralwidget)
         self.lastButton.setGeometry(QtCore.QRect(280, 530, 34, 20))
         self.lastButton.setText(_fromUtf8(""))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("images/last.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.lastButton.setIcon(icon1)
+        self.lastButton.setStyleSheet("background-color: transparent")
+        lastIcon = QtGui.QIcon()
+        lastIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/last.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.lastButton.setIcon(lastIcon)
         self.lastButton.setIconSize(QtCore.QSize(34, 20))
         self.lastButton.setObjectName(_fromUtf8("lastButton"))
 
         self.nextButton = QtGui.QPushButton(self.centralwidget)
         self.nextButton.setGeometry(QtCore.QRect(480, 530, 34, 20))
         self.nextButton.setText(_fromUtf8(""))
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("images/next.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.nextButton.setIcon(icon2)
+        self.nextButton.setStyleSheet("background-color: transparent")
+        nextIcon = QtGui.QIcon()
+        nextIcon.addPixmap(QtGui.QPixmap(_fromUtf8("images/next.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nextButton.setIcon(nextIcon)
         self.nextButton.setIconSize(QtCore.QSize(34, 20))
         self.nextButton.setObjectName(_fromUtf8("nextButton"))
 
@@ -212,6 +225,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.centralwidget)
 
+        ## event handler of buttons
         self.playStopButton.clicked.connect(self.playStopMusic)
         self.lastButton.clicked.connect(self.goToLastMusic)
         self.nextButton.clicked.connect(self.goToNextMusic)
@@ -222,7 +236,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.youtubeLabel.setText(_translate("MainWindow", "Youtube ID", None))
+        self.youtubeLabel.setText(_translate("MainWindow", "Youtube ID:", None))
         self.okButton.setText(_translate("MainWindow", "Submit", None))
 
 if __name__ == "__main__":
