@@ -21,13 +21,13 @@ PLAYLIST_SEEDS = {
     "growl": [ 'aOXoZe1TmMs', 'mxNRm0Dboww', 'O6oeg0qaI-Q', '05W9SXQieEA', 'H_OHwDtOjUk']
 }
 
-"""
-Iterate over playlist seeds to collect or download all audio to audio_dir.
 
-Returns the list of audio file paths collected from audio_dir.
-"""
 def get_all_audio(audio_dir = AUDIO_DIR):
+    """
+    Iterate over playlist seeds to collect or download all audio to audio_dir.
     
+    Returns the list of audio file paths collected from audio_dir.
+    """    
     audio_files = {}
     for mood, seed_list in PLAYLIST_SEEDS.iteritems():
         audio_files[mood] = glob.glob(audio_dir + mood.upper() + '*.wav')
@@ -36,14 +36,15 @@ def get_all_audio(audio_dir = AUDIO_DIR):
 
     return audio_files
 
-"""
-Wrapper for download_playlist that passes each distinct seed and groups and tags 
-it by the associated mood
-
-Returns the dictionary audio_files, mapping a mood to a list of associated audio
-"""
 def download_all_audio(audio_dir = AUDIO_DIR):
-
+    """
+    Wrapper for download_playlist that passes each distinct seed and groups and tags 
+    it by the associated mood
+    
+    Returns the dictionary audio_files, mapping a mood to a list of associated audio
+    
+    """
+    
     audio_files = {}
 
     for mood, seed_list in PLAYLIST_SEEDS.iteritems():
@@ -57,16 +58,17 @@ def download_all_audio(audio_dir = AUDIO_DIR):
     return audio_files
 
 
-"""
-Download's the audio of a YT mix playlist based on a seed video id
 
-Optional parameter to select max download number.
-
-Returns the list of converted audio files that were downloaded.
-"""
 def download_playlist(tag, video_id, max_downloads=None, audio_dir=AUDIO_DIR):
-
-    print "Downloading playlist for [Tag:'{0}', Seed:'{1}]'...\n".format(tag.upper(),video_id)
+    """
+    Download's the audio of a YT mix playlist based on a seed video id
+    Optional parameter to select max download number.
+    
+    Returns the list of converted audio files that were downloaded.
+    """
+    
+    print "Downloading playlist for \
+    [Tag:'{0}', Seed:'{1}]'...\n".format(tag.upper(),video_id)
 
     #use seed_video to generate mix playlist id
     seed_video = pafy.new(video_id)
@@ -85,51 +87,23 @@ def download_playlist(tag, video_id, max_downloads=None, audio_dir=AUDIO_DIR):
             video = pafy.new(video_id) #process seed video
         else:
             video = playlist[x]['pafy'] #process playlist videos  
+            video_id = video.videoid
         
-        #select stream with the best m4a audio
-        stream = video.getbestaudio(preftype="m4a")
-        title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
-
-        #initialize local audio file paths
-        m4a_file = audio_dir + tag.upper() + "_" + title + "." + stream.extension
-        wav_file = m4a_file[:-4] + '.wav'
-        
-        #if m4a doeasn't exist, download it
-        print "Checking for previous download of {0}.m4a...".format(title)
-        if not (os.path.isfile(m4a_file) or os.path.isfile(wav_file)):
-            print "\tDownloading m4a ..."
-            m4a_file = stream.download(filepath = m4a_file,quiet=True)
-            print "\tDownload complete."
-        
-        #if wav doesn't exist, download it
-        print "Checking for previous download of {0}.wav...".format(title) 
-        if not os.path.isfile(wav_file):
-            print "\tConverting m4a to wav ..."
-            wav_file = convert_to_wav(m4a_file)
-            print "\tConversion complete"
-
-            #Delete the m4a file after conversion
-            try: 
-                print "\n\tDeleting original m4a file..."
-                os.remove(m4a_file)
-                print "\tDeletion of original m4a complete"
-            except Exception as e:
-                print str(e) + ": unable to remove m4a due to an unexpected exception..."
-            
-            
+        wav_file = get_wav_from_vid(video_id)
         wav_files.append(wav_file)
     
     print "Playlist download completed\n"
     return wav_files
 
-"""
-Download and convert a seed video
 
-Returns the file path of the audio  downloaded.
-"""
 def get_wav_from_vid(video_id, audio_dir = AUDIO_DIR):
-
-    print "Downloading video".format(video_id)
+    """
+    Download and convert a seed video from youtube
+    
+    Returns the file path of the audio downloaded.
+    """
+    
+    print "Downloading video from id {}".format(video_id)
 
     #use seed_video to generate mix playlist id
     seed_video = pafy.new(video_id)
@@ -168,14 +142,14 @@ def get_wav_from_vid(video_id, audio_dir = AUDIO_DIR):
     print "Download and conversion completed\n"
     return wav_file
 
-"""
-Relies on users' FFMPEG install to convert m4a to wav
-User MUST have FFMPEG installed on their system path/system environ variables
 
-!CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
-to system PATH variables in order to properly run FFMPEG.
-"""  
 def download_m4a(video_id,audio_dir=AUDIO_DIR):
+    """
+    Uses Pafy library to install best m4a audio stream
+    
+    returns path to m4a
+    """  
+    
     video = pafy.new(video_id)
     stream = video.getbestaudio(preftype="m4a")
     title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
@@ -186,6 +160,13 @@ def download_m4a(video_id,audio_dir=AUDIO_DIR):
     return m4a_file
 
 def get_m4a(video_id, audio_dir = AUDIO_DIR):
+    """
+    Uses Pafy library to install best m4a audio stream only if m4a doesn't 
+    already exist.
+    
+    returns path to m4a
+    """  
+    
     video = pafy.new(video_id)
     title = re.sub(r'\W+', '', video.title.replace (" ", "_"))
     m4a_file = audio_dir + "_" + title + ".m4a"
@@ -198,16 +179,19 @@ def get_m4a(video_id, audio_dir = AUDIO_DIR):
     return m4a_file
 
 
-"""
-Relies on users' FFMPEG install to convert m4a to wav
-User MUST have FFMPEG installed on their system path/system environ variables
-
-!CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
-to system PATH variables in order to properly run FFMPEG.
-
-Also expects "Pydub" library.  (pip install pydub)
-"""
 def convert_to_wav(m4a_file,audio_dir = AUDIO_DIR):  
+    """
+    Relies on users' FFMPEG install to convert m4a to wav
+    User MUST have FFMPEG installed on their system path/system environ variables
+    
+    !CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
+    to system PATH variables in order to properly run FFMPEG.
+    
+    Also expects "Pydub" library.  (pip install pydub)
+    
+    Returns path to wav file
+    """
+    
     wav_file = m4a_file[:-4] + '.wav'
     
     m4a = AudioSegment.from_file(m4a_file)
@@ -220,6 +204,18 @@ def convert_to_wav(m4a_file,audio_dir = AUDIO_DIR):
 
 
 def split_audio(music_file, audio_dir = AUDIO_DIR):
+    """
+    Relies on users' FFMPEG install to convert m4a to wav
+    User MUST have FFMPEG installed on their system path/system environ variables
+    
+    !CAUTION!: If this is being run in an IDE, make sure the **IDE** has visibility
+    to system PATH variables in order to properly run FFMPEG.
+    
+    Also expects "Pydub" library.  (pip install pydub)
+    
+    Returns list with paths to new files generated from split
+    """
+    
     print "Splitting '{}' into 3-minute chunks...".format(music_file)
     
     file_ext = music_file.split(".")[-1]
@@ -243,10 +239,10 @@ def split_audio(music_file, audio_dir = AUDIO_DIR):
     return new_clips
 
 def test_audio_scraper():
-     wav_files = audio_scraper.download_playlist("test","8QEJDE2WjPA",max_downloads=2)
-     m4a_file = audio_scraper.get_m4a("8QEJDE2WjPA")
-     wav_file = audio_scraper.convert_to_wav(m4a_file)
-     wav_set = audio_scraper.split_audio(wav_files[1])
+     wav_files = download_playlist("test","8QEJDE2WjPA",max_downloads=2)
+     m4a_file = get_m4a("8QEJDE2WjPA")
+     wav_file = convert_to_wav(m4a_file)
+     wav_set = split_audio(wav_files[1])
      print "Files from split: "
      for wav in wav_set:
          print wav
