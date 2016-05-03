@@ -4,7 +4,25 @@ import audio.song_analysis as song_analysis
 import pyaudio
 import os
 import time
+import sys
 
+#used to suppress deprecation error messages in sklearn package
+class RedirectStdStreams(object):
+    def __init__(self, stdout=None, stderr=None):
+        self._stdout = stdout or sys.stdout
+        self._stderr = stderr or sys.stderr
+
+    def __enter__(self):
+        self.old_stdout, self.old_stderr = sys.stdout, sys.stderr
+        self.old_stdout.flush(); self.old_stderr.flush()
+        sys.stdout, sys.stderr = self._stdout, self._stderr
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._stdout.flush(); self._stderr.flush()
+        sys.stdout = self.old_stdout
+        sys.stderr = self.old_stderr
+        
+        
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -65,7 +83,10 @@ class Ui_MainWindow(object):
             video_id = self.lineEdit.text()
 
             try:
-                analysis, frames = song_analysis.analyze(video_id)
+                devnull = open(os.devnull, 'w')
+
+                with RedirectStdStreams(stderr=devnull):
+                    analysis, frames = song_analysis.analyze(video_id)
             except Exception as e:
                 print "Cannot download YouTube audio for ID {0}: {1}".format(video_id, e)
                 return
