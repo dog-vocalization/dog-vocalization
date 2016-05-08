@@ -47,3 +47,6 @@ fabric.properties.idea/*
 .idea/encodings.xml
 *.pyc
 
+audio/audio_files/
+*.project
+*.pydevproject
